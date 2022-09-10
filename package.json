@@ -1,0 +1,14 @@
+{
+  "name": "travel_blog_backend",
+  "version": "0.0.1",
+  "description": "Travel Blog Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sneha",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
