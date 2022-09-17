@@ -1,39 +1,30 @@
+
 const dotenv = require("dotenv");
 dotenv.config();
-
 const express = require("express");
 const cors = require("cors");
-const { Pool } = require("PG");
-
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'));
 
-const port = process.env.PORT || 5000;
-
-const pool = new Pool({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-  ssl: true,
-  ssl: { rejectUnauthorized: false },
-});
+//TODO : Import db operationsa controller functions here
+const {
+  getDestinationHotels,
+  getDestinationRestaurants,
+  getOneDestination,
+  getDestination
+ } = require('./controllers/db_operations')
+const port = process.env.PORT || 3000;
+// TODO: Move to db_operations.js
 
 app.get("/", (req, res) => {
   res.send("Testing");
 });
 app.get("/api/destinations",(req, res) => {
-  pool
-    .query(
-      `
-    SELECT * FROM destinations;
-    `
-    )
-    .then((data) => {
-      res.status(201).send(data.rows);
+    getDestination()
+    .then((destinations) => {
+      res.json(destinations)
     })
     .catch((err) => {
       res.status(400).send({
@@ -41,7 +32,9 @@ app.get("/api/destinations",(req, res) => {
       });
     });
 })
-app.get("/api/destinations/:id",(req, res) => {
+
+/* app.get("/api/destinations/:id",(req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
   const {id} = req.params;
   pool
     .query('SELECT * FROM destinations WHERE id =$1;',[id])
@@ -109,7 +102,7 @@ app.post("/api/blog", (req, res) => {
       });
     });
 });
-
+ */
 console.log(process.env.PG_DATABASE);
 
 app.listen(port, () => console.log(`Server listening at port ${port}`));

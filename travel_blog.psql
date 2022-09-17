@@ -161,3 +161,6 @@ drop table hotels;
 drop table restaurants;
 drop table shops;
 drop table blogs;
+
+select destinations.id, destinations.country, destinations.city,destinations.language,destinations.country_coords,destinations.city_info,destinations.background_img_id authors.id as author_id,  authors.name from books 
+join authors on books.author_id = authors.id;
