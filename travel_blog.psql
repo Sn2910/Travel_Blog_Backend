@@ -9,6 +9,43 @@ create table assets(
  
 );
 insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3nSVty2DeRQHcn2B4vtO4l/3db0f4b75ee6ae7ab0035dba376929b5/berlin.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7a5gUKTFkkJmCzN5b9djRq/8140d505e9e207b02fb3dc6117af46ab/Bucuresti_Romania._SPITALUL_COLTEA__B-II-m-A-18220.02_.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/L482xdEnwTw05BXEDgXac/3ecae0f3f8b8ff305b10eb8a87c289b3/austria.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/1ikKruIIESuRrxsOgPqVDY/d52fd2948225600ced02d1a6e6974a36/netherlands.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4zMmlEgxOB9p42gi6r7BRv/9772d4cbc98c3c9b1e04356eed027767/Eiffel_Tower_from_the_Tour_Montparnasse_3_Paris_May_2014.jpg');
+
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/79XPu6Wc7Crh5FXKQHLykQ/32ef627516140d89433540c432f81369/b-hotel3.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/643UrjsHOAmPq1ZFedmzl8/8ce02b0b2a8c30c43cf24e1d8b9c6e8c/b-hotel2.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/61tmf0t1lm6QurQ9wYnYK6/c4b3084b8a4970952b01b6452af62ea5/r-hotel1.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5P2JdfDUpA9nALr00dWA3Z/a79ad8a061ee2e039c8ce5ac38270e93/r-hotel2.webp');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4NvUmpY5iRTjq2DSXch2bR/2fcbb4ea9265e45168f1b0b6dc2427c0/v-hotel1.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/10Li308tL7bLaAzuvHAkHM/0ef9a8b8ca256e056c0dc0977729da91/v-hotel2.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3br80SDwCade33Zo1Nt45e/d79d7fce6a14e44457f5ec8e463c3857/a-hotel1.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/2o8eOikBqicp2hpVAo4LV1/859408093e396e378b46b5885f94844b/a-hotel3.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5ArIliYEukUeEQOoSbnDtt/14d1522e674ae6fcd19c222b6c2a57a7/p-hotel1.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7cr7bbcz0mItft4sxfziXo/fb973b40f8197dc464e6826ed9f69334/p-hotel3.jpg');
+
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/OFPkzcp9UKONx74quPQo9/3499b12b8ad2336537ee130f1f47ca8a/2022-05-05.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/veyHg0PUbUGVyR51K9ls1/3fd9d3f1d4a7bfdcd1cef650c15ea6db/foodcourt1.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/39dFlHQWQzeXhVHqJyKO7y/1a7faa285dafb864bb5655506c57d237/r-shop2.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6dMcIFTir3aL6Qh8eHcxjz/237cd63c60dc142804f136a3b940c131/r-shop.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3Gp6BTN4ozX2iMMa85FNSa/4f7782705833db041398810e38f8ee89/a-shop2.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4BnoohCVtsKIEnWakQQcNp/232f2bafce84e1b5d9b5cf546d86abfa/a-shop.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3fS30SgECipAWgimglEHT3/6fae6c981eada562be16bf6d1581aca0/2021-06-07.png');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/ouKZoAumynm2HDs8PibF3/982efea1843f0a94193c267297593997/beelden_gp3.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4iDoTGHQ8DpOXVWKDVCnPH/5ba280ec85a8df47bfbe66c8cf9d6731/original_ecbe20c9-f528-4820-adfa-f14174bf76ab_IMG_20220721_125001.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/71kboNZLqRZpFHoMjCDb1Q/9b19139c08398bdc0f18e6f49747231a/2022-08-09.jpg');
+
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4Fj3AS7TYFHHG3Bx5Hg8gK/cb946750b27a8328c246ca264a0ac9f8/MAREDO_berlin.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7H1GXGYtHyN5bbGoVBaJ6O/717f000af7d865b52c5cf1ba4063f8f8/the-main-room-with-pretty.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6VmFq5LmGkfGTjYos0jvZK/13333a815b1b9b7f2a2c0a5480621a06/imperial-turkish-cuisine.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6XIU7cQiyu4hSdlMjXFLpC/4d63ac7d21a6579472c66b0e3058e87a/join-us-at-tuya.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4FXU820LTVHtVC3HpUGFJu/4adf4f2beaf614d6755a08a7fe68be82/photo6jpg.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6Mf1vJ8SAP59NvX1TilyLI/4a3d66c87deff5b9aaeb0f89484ccfc3/interior-of-the-restaurant.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5ID1nVbHJtOkaEvZKyiZRF/a9f0ec0b0fe16c53692e3ee0797ec95b/vadouvan-chef-arturo.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/2UAJoFXLh5cNMR39gQKX26/930757f83613f3d1b58feb6c22b1a068/thinly-sliced-cured-venison.jpg');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7nrnWahX9raIKUoO3XdnyQ/1f2b36a57c548dbbe58cddc594b4c4de/__GeraldineMartens-_DSC9156.webp');
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/emgJPBJEA4KsgxD1CiBVN/aaa7be9007d4254faa9cde7f27a78026/chou-frise-a-la-mode.jpg');
 select * from assets;
 create table destinations(
     id serial primary key,
