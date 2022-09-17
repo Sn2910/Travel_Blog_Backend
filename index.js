@@ -1,4 +1,3 @@
-
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
@@ -6,32 +5,32 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 //TODO : Import db operationsa controller functions here
 const {
   getDestinationHotels,
   getDestinationRestaurants,
   getOneDestination,
-  getDestination
- } = require('./controllers/db_operations')
+  getDestination,
+} = require("./controllers/db_operations");
 const port = process.env.PORT || 3000;
 // TODO: Move to db_operations.js
 
 app.get("/", (req, res) => {
   res.send("Testing");
 });
-app.get("/api/destinations",(req, res) => {
-    getDestination()
+app.get("/api/destinations", (req, res) => {
+  getDestination()
     .then((destinations) => {
-      res.json(destinations)
+      res.json(destinations);
     })
     .catch((err) => {
       res.status(400).send({
         error: err.message,
       });
     });
-})
+});
 
 /* app.get("/api/destinations/:id",(req, res) => {
   // TODO: Replace Db operations with call to getDestination()
