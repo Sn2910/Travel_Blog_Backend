@@ -4,11 +4,12 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("PG");
+const { patchTable } = require("./controllers/db_operations");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 const port = process.env.PORT || 5000;
 
@@ -20,12 +21,12 @@ const pool = new Pool({
   port: process.env.PG_PORT,
   ssl: true,
   ssl: { rejectUnauthorized: false },
-});
+}); // Move all to db-operation
 
 app.get("/", (req, res) => {
   res.send("Testing");
 });
-app.get("/api/destinations",(req, res) => {
+app.get("/api/destinations", (req, res) => {
   pool
     .query(
       `
@@ -40,11 +41,11 @@ app.get("/api/destinations",(req, res) => {
         error: err.message,
       });
     });
-})
-app.get("/api/destinations/:id",(req, res) => {
-  const {id} = req.params;
+});
+app.get("/api/destinations/:id", (req, res) => {
+  const { id } = req.params;
   pool
-    .query('SELECT * FROM destinations WHERE id =$1;',[id])
+    .query("SELECT * FROM destinations WHERE id =$1;", [id])
     .then((data) => {
       res.status(201).send(data.rows);
     })
@@ -53,7 +54,7 @@ app.get("/api/destinations/:id",(req, res) => {
         error: err.message,
       });
     });
-})
+});
 
 app.get("/api/blog", (req, res) => {
   pool
@@ -95,11 +96,37 @@ app.post("/api/blog", (req, res) => {
   pool
     .query(
       `
-    INSERT INTO blogs (user_name, blog_date, title, rich_text)
-    values ($1, $2, $3, $4) returning *;
+    INSERT INTO blogs (user_name, blog_date, title, rich_text, blog_image)
+    values ($1, $2, $3, $4, $5) returning *;
     `,
-      [req.body.userName, req.body.blogDate, req.body.title, req.body.richText]
+      [
+        req.body.userName,
+        req.body.blogDate,
+        req.body.title,
+        req.body.richText,
+        req.body.blogImage,
+      ]
     )
+    .then((data) => {
+      res.status(201).send(data.rows);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+});
+
+app.patch("/api/blog/:id", (req, res) => {
+  const { id } = req.params;
+  const fieldMapping = {
+    userName: "user_name",
+    blogDate: "blog_date",
+    title: "title",
+    richText: "rich_text",
+    blogImage: "blog_image",
+  };
+  patchTable("blogs", fieldMapping, id, req)
     .then((data) => {
       res.status(201).send(data.rows);
     })
