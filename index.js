@@ -42,14 +42,33 @@ app.get("/api/blog", (req, res) => {
     });
 });
 
+app.get("/api/blog/:id", (req, res) => {
+  const { id } = req.params;
+  pool
+    .query(
+      `
+    SELECT * FROM blogs WHERE id=$1;
+    `,
+      [id]
+    )
+    .then((data) => {
+      res.json(data.rows);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+});
+
 app.post("/api/blog", (req, res) => {
   pool
     .query(
       `
-    INSERT INTO blogs (title, rich_text)
-    values ($1, $2) returning *;
+    INSERT INTO blogs (user_name, blog_date, title, rich_text)
+    values ($1, $2, $3, $4) returning *;
     `,
-      [req.body.title, req.body.richText]
+      [req.body.userName, req.body.blogDate, req.body.title, req.body.richText]
     )
     .then((data) => {
       res.status(201).send(data.rows);
