@@ -1,0 +1,69 @@
+create table users(
+    id serial PRIMARY KEY,
+    name varchar(255)
+);
+
+create table destinations(
+    id serial primary key,
+    country varchar(255),
+    city varchar(255),
+    language varchar(255),
+    country_coords varchar(500),
+    city_info varchar(10000)
+);
+
+create table hotels(
+    id serial primary key,
+    name varchar(255),
+    description varchar(500),
+    price float,
+    url varchar(500),
+    rating float
+);
+create table restuarants(
+    id serial primary key,
+    name varchar(255),
+    description varchar(500),
+    price float,
+    url varchar(500),
+    rating float
+);
+create table shops(
+    id serial primary key,
+    name varchar(255),
+    description varchar(500),
+    price float,
+    url varchar(500),
+    rating float
+);
+
+create table blogs(
+    id serial primary key,
+    user_name varchar(255),
+    blog_date varchar(50),
+    title varchar(255),
+    rich_text varchar(50000)
+);
+
+insert into blogs (user_name, blog_date, title, rich_text)
+values ('Kenn', '27.09.2022', 'My First Trip', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which do not look even slightly believable.');
+
+-- Users
+insert into users (name) values ('Sneha Kenn');
+select * from users;
+
+-- Destinations
+insert into destinations (country, city, language, country_coords, city_info) 
+values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
+
+select * from destinations;
+
+select * from blogs;
+delete from blogs
+where id between 3 and 6
+
+-- drop table destinations;
+drop table hotels;
+drop table restuarants;
+drop table shops;
+drop table blogs;
