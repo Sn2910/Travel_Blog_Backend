@@ -8,6 +8,7 @@ const { Pool } = require("PG");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('public'));
 
 const port = process.env.PORT || 5000;
 
@@ -24,6 +25,35 @@ const pool = new Pool({
 app.get("/", (req, res) => {
   res.send("Testing");
 });
+app.get("/api/destinations",(req, res) => {
+  pool
+    .query(
+      `
+    SELECT * FROM destinations;
+    `
+    )
+    .then((data) => {
+      res.status(201).send(data.rows);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+})
+app.get("/api/destinations/:id",(req, res) => {
+  const {id} = req.params;
+  pool
+    .query('SELECT * FROM destinations WHERE id =$1;',[id])
+    .then((data) => {
+      res.status(201).send(data.rows);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+})
 
 app.get("/api/blog", (req, res) => {
   pool

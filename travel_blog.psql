@@ -2,15 +2,30 @@ create table users(
     id serial PRIMARY KEY,
     name varchar(255)
 );
-
+create table assets(
+     id serial primary key,
+     img_url varchar(255)
+     
+ 
+);
+insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3nSVty2DeRQHcn2B4vtO4l/3db0f4b75ee6ae7ab0035dba376929b5/berlin.jpg');
+select * from assets;
 create table destinations(
     id serial primary key,
     country varchar(255),
     city varchar(255),
     language varchar(255),
     country_coords varchar(500),
-    city_info varchar(10000)
+    city_info varchar(50000),
+   
+    background_img_id int,
+    
+  
+   FOREIGN KEY (background_img_id) REFERENCES assets(id)
 );
+insert into destinations (country, city, language, country_coords, city_info,) 
+values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
+
 
 create table hotels(
     id serial primary key,
@@ -18,7 +33,12 @@ create table hotels(
     description varchar(500),
     price float,
     url varchar(500),
-    rating float
+    rating float,
+    destination_id int,
+     image_id int,
+     FOREIGN KEY (destination_id) REFERENCES destinations(id),
+     FOREIGN KEY (image_id) REFERENCES assets(id)
+
 );
 create table restuarants(
     id serial primary key,
@@ -26,7 +46,12 @@ create table restuarants(
     description varchar(500),
     price float,
     url varchar(500),
-    rating float
+    rating float,
+    destination_id int,
+    image_id int,
+     FOREIGN KEY (destination_id) REFERENCES destinations(id),
+ FOREIGN KEY (image_id) REFERENCES assets(id)
+
 );
 create table shops(
     id serial primary key,
@@ -34,7 +59,11 @@ create table shops(
     description varchar(500),
     price float,
     url varchar(500),
-    rating float
+    rating float,
+    destination_id int,
+     image_id int,
+     FOREIGN KEY (destination_id) REFERENCES destinations(id),
+     FOREIGN KEY (image_id) REFERENCES assets(id)
 );
 
 create table blogs(
@@ -53,7 +82,7 @@ insert into users (name) values ('Sneha Kenn');
 select * from users;
 
 -- Destinations
-insert into destinations (country, city, language, country_coords, city_info) 
+insert into destinations (country, city, language, country_coords, city_info,) 
 values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
 
 select * from destinations;
@@ -62,7 +91,7 @@ select * from blogs;
 delete from blogs
 where id between 3 and 6
 
--- drop table destinations;
+ drop table destinations;
 drop table hotels;
 drop table restuarants;
 drop table shops;
