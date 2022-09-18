@@ -44,8 +44,8 @@ function updateBlog(id, update) {
     .query(
       `
       UPDATE blogs
-      set user_name=$1, blog_date=$2, title=$3, rich_text=$4, blog_image=$5
-      where id=$1
+      set user_name=$1, title=$2, rich_text=$3, blog_image=$4
+      where id=$5
       returning *;
       `,
       [update.userName, update.blogDate, update.richText, update.blogImage, id]
