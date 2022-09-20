@@ -1,10 +1,20 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("PG");
-const { patchTable } = require("./controllers/db_operations");
+const {
+  patchTable,
+  postDestination,
+  getDestinations,
+  getDestinationByID,
+  deleteDestination,
+  postBlog,
+  updateBlog,
+  getBlogByID,
+  getBlogs,
+  deleteBlog,
+} = require("./controllers/db_operations");
 
 const app = express();
 app.use(express.json());
@@ -13,127 +23,127 @@ app.use(express.static("public"));
 
 const port = process.env.PORT || 5000;
 
-const pool = new Pool({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-  ssl: true,
-  ssl: { rejectUnauthorized: false },
-}); // Move all to db-operation
+function sendErrorOutput(err, res) {
+  res.status(400).send({
+    errors: [err.message],
+  });
+}
+
+// const pool = new Pool({
+//   user: process.env.PG_USER,
+//   host: process.env.PG_HOST,
+//   database: process.env.PG_DATABASE,
+//   password: process.env.PG_PASSWORD,
+//   port: process.env.PG_PORT,
+//   ssl: true,
+//   ssl: { rejectUnauthorized: false },
+// }); // Move all to db-operation
 
 app.get("/", (req, res) => {
   res.send("Testing");
 });
-app.get("/api/destinations", (req, res) => {
-  pool
-    .query(
-      `
-    SELECT * FROM destinations;
-    `
-    )
+
+app.post("/api/destination", (req, res) => {
+  postDestination(req.body)
     .then((data) => {
-      res.status(201).send(data.rows);
+      res.status(201).send(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
-app.get("/api/destinations/:id", (req, res) => {
-  const { id } = req.params;
-  pool
-    .query("SELECT * FROM destinations WHERE id =$1;", [id])
+
+app.get("/api/destination", (req, res) => {
+  getDestinations()
     .then((data) => {
-      res.status(201).send(data.rows);
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+app.get("/api/destination/:id", (req, res) => {
+  const { id } = req.params;
+  getDestinationByID(id)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+app.delete("/api/destination/:id", (req, res) => {
+  const { id } = req.params;
+  deleteDestination(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.get("/api/blog", (req, res) => {
-  pool
-    .query(
-      `
-    SELECT * FROM blogs;
-    `
-    )
+  getBlogs()
     .then((data) => {
-      res.status(201).send(data.rows);
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.get("/api/blog/:id", (req, res) => {
   const { id } = req.params;
-  pool
-    .query(
-      `
-    SELECT * FROM blogs WHERE id=$1;
-    `,
-      [id]
-    )
+  getBlogByID(id)
     .then((data) => {
-      res.json(data.rows);
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.post("/api/blog", (req, res) => {
-  pool
-    .query(
-      `
-    INSERT INTO blogs (user_name, blog_date, title, rich_text, blog_image)
-    values ($1, $2, $3, $4, $5) returning *;
-    `,
-      [
-        req.body.userName,
-        req.body.blogDate,
-        req.body.title,
-        req.body.richText,
-        req.body.blogImage,
-      ]
-    )
-    .then((data) => {
-      res.status(201).send(data.rows);
+  postBlog(req.body).then((data) => {
+    res.json(data);
+  });
+});
+
+app.put("/api/blog/:id", (req, res) => {
+  const { id } = req.params;
+
+  if (
+    !req.body.userName ||
+    !req.body.blogDate ||
+    !req.body.title ||
+    !req.body.richText ||
+    !req.body.blogImage
+  ) {
+    return res
+      .status(400)
+      .send({ error: "Some field(s) are missing. Check API documentation" });
+  }
+
+  updateBlog(id, req.body)
+    .then((updatedData) => {
+      res.send(updatedData);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.patch("/api/blog/:id", (req, res) => {
   const { id } = req.params;
   const fieldMapping = {
-    userName: "user_name",
     title: "title",
     richText: "rich_text",
     blogImage: "blog_image",
   };
+
   patchTable("blogs", fieldMapping, id, req)
-    .then((data) => {
-      res.status(201).send(data.rows);
+    .then(() => {
+      res.send({ status: "updated" });
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+app.delete("/api/blog/:id", (req, res) => {
+  const { id } = req.params;
+  deleteBlog(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 console.log(process.env.PG_DATABASE);

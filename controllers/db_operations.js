@@ -39,23 +39,138 @@ async function patchTable(table, fieldMapping, id, req) {
   return pool.query(sql, updateQuery);
 }
 
-function updateBlog(id, update) {
+function postDestination(update) {
   return pool
     .query(
       `
-      UPDATE blogs
-      set user_name=$1, title=$2, rich_text=$3, blog_image=$4
-      where id=$5
-      returning *;
-      `,
-      [update.userName, update.blogDate, update.richText, update.blogImage, id]
+    INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
+    values ($1, $2, $3, $4, $5, $6) returning *;
+    `,
+      [
+        update.country,
+        update.city,
+        update.language,
+        update.country_coords,
+        update.city_info,
+        update.background_img_id,
+      ]
     )
     .then((data) => {
       return data.rows;
     });
 }
 
+function getDestinations() {
+  return pool
+    .query(
+      `
+    SELECT * FROM destinations;
+    `
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getDestinationByID(id) {
+  return pool
+    .query("SELECT * FROM destinations WHERE id =$1;", [id])
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function deleteDestination(id) {
+  return pool
+    .query("DELETE FROM destinations where id=$1;", [id])
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function postBlog(update) {
+  return pool
+    .query(
+      `
+    INSERT INTO blogs (user_name, blog_date, title, rich_text, blog_image)
+    values ($1, $2, $3, $4, $5) returning *;
+    `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+      ]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getBlogs() {
+  return pool
+    .query(
+      `
+    SELECT * FROM blogs;
+    `
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getBlogByID(id) {
+  return pool
+    .query(
+      `
+    SELECT * FROM blogs WHERE id=$1;
+    `,
+      [id]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function updateBlog(id, update) {
+  return pool
+    .query(
+      `
+      UPDATE blogs
+      set user_name=$1, blog_date=$2, title=$3, rich_text=$4, blog_image=$5
+      where id=$6
+      returning *;
+      `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+        id,
+      ]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function deleteBlog(id) {
+  return pool.query("DELETE FROM blogs where id=$1;", [id]).then((data) => {
+    return data.rows;
+  });
+}
+
 module.exports = {
   patchTable,
+  postDestination,
+  getDestinations,
+  getDestinationByID,
+  deleteDestination,
+  postBlog,
+  getBlogs,
+  getBlogByID,
   updateBlog,
+  deleteBlog,
 };
