@@ -90,7 +90,7 @@ select * from destinations;
 
 select * from blogs;
 delete from blogs
-where id between 2 and 19;
+where id between 4 and 5;
 
  drop table destinations;
 drop table hotels;
