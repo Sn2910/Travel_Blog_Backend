@@ -81,7 +81,7 @@ Romania is a developing country with a high-income economy,[15][16] ranking 
 
 
 
-select * from destinations;
+select * from destinations where id = 2;
 
 create table hotels(
     id serial primary key,
@@ -99,6 +99,15 @@ create table hotels(
 );
 
 insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Meininger Hotel','It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',90,'https://www.meininger-hotels.com/',4,800,1,6);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,1,7);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Hello Hotels','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',40,'https://hello-hotels-bucuresti.continentalhotels.ro/',4,407,2,8);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Europa Royale Hotel','Many desktop publishing packages and web page editors now use Lorem Ipsum.',84,'https://hotelbucharest.top/',4.5,756,2,9);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,3,10);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,3,11);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,4,12);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,4,13);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,5,14);
+insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,5,15);
 
 create table restaurants(
     id serial primary key,
@@ -116,6 +125,7 @@ create table restaurants(
 );
 insert into restaurants ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Gendarmenmarkt','CUISINES Steakhouse, Barbecue, Grill SPECIAL DIETS
 Vegetarian Friendly, Gluten Free Options',20,'https://www.maredo.com/ueber-maredo/ueber-uns',4.5,756,1,27);
+select * from restaurants;
 create table shops(
     id serial primary key,
     name varchar(255),
@@ -155,7 +165,7 @@ select * from destinations;
 select * from blogs;
 delete from blogs
 where id between 3 and 6
-
+select * from restaurants where destination_id =1;
  drop table destinations;
 drop table hotels;
 drop table restaurants;
