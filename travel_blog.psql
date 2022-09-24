@@ -146,25 +146,27 @@ create table blogs(
     user_name varchar(255),
     blog_date varchar(50),
     title varchar(255),
-    rich_text varchar(50000)
+    rich_text varchar(50000),
+    blog_image varchar(500)
 );
 
-insert into blogs (user_name, blog_date, title, rich_text)
-values ('Kenn', '27.09.2022', 'My First Trip', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which do not look even slightly believable.');
+insert into blogs (user_name, blog_date, title, rich_text, blog_image)
+values ('Kenn', '27.09.2022', 'My First Trip', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which do not look even slightly believable.', 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1120&q=80');
 
 -- Users
 insert into users (name) values ('Sneha Kenn');
 select * from users;
 
 -- Destinations
-insert into destinations (country, city, language, country_coords, city_info,) 
+insert into destinations (country, city, language, country_coords, city_info) 
 values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
 
 select * from destinations;
 
 select * from blogs;
 delete from blogs
-where id between 3 and 6
+where id between 4 and 5;
+
 select * from restaurants where destination_id =1;
  drop table destinations;
 drop table hotels;

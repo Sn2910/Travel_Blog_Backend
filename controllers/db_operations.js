@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+
 const pool = new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -9,6 +10,68 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+async function patchTable(table, fieldMapping, id, req) {
+  // updates  [{field: 'name', value: 'Changed Name'}, {field: 'address', value: 'New York'}, {field: phone, value: '23423423'}]
+  const updates = Object.keys(req.body).map((param) => {
+    return {
+      field: fieldMapping[param],
+      value: req.body[param],
+    };
+  });
+
+  let updateQuery = [id];
+  let updateFields = [];
+  updates.forEach((element, index) => {
+    updateQuery.push(element.value);
+    updateFields.push(element.field + "=$" + (index + 2));
+  });
+
+  console.log("req.body", req.body);
+  console.log("updateQuery", updateQuery);
+  console.log("updateFields", updateFields);
+
+  sql = `
+      UPDATE ${table} 
+      SET ${updateFields.toString(", ")} 
+      WHERE id=$1`;
+
+  console.log("sql", sql);
+  return pool.query(sql, updateQuery);
+}
+
+function postBlog(update) {
+  return pool
+    .query(
+      `
+    INSERT INTO blogs (user_name, blog_date, title, rich_text, blog_image)
+    values ($1, $2, $3, $4, $5) returning *;
+    `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+      ]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getBlogs() {
+  return pool
+    .query(
+      `
+    SELECT * FROM blogs;
+    `
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getBlogByID(id) {
 /**
  * This is a generic PostgreSQL database select fetch function
  * @params sqlQuery is the complete string
@@ -156,37 +219,43 @@ async function getAssets() {
   return await getSingleData('SELECT * FROM "assets";', null);
 }
 
-async function getBlogs() {
-  return pool.query(`SELECT * FROM blogs;`).then((data) => {
-    return data.rows;
-  });
-}
-async function getOneBlog(id) {
+function updateBlog(id, update) {
   return pool
     .query(
       `
-    SELECT * FROM blogs WHERE id=$1;
-    `,
-      [id]
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
-async function postBlog() {
-  return pool
-    .query(
-      `
-        INSERT INTO blogs (user_name, blog_date, title, rich_text)
-        values ($1, $2, $3, $4) returning *;
-        `,
-      [req.body.userName, req.body.blogDate, req.body.title, req.body.richText]
+      UPDATE blogs
+      set user_name=$1, blog_date=$2, title=$3, rich_text=$4, blog_image=$5
+      where id=$6
+      returning *;
+      `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+        id,
+      ]
     )
     .then((data) => {
       return data.rows;
     });
 }
 
+function deleteBlog(id) {
+  return pool.query("DELETE FROM blogs where id=$1;", [id]).then((data) => {
+    return data.rows;
+  });
+}
+
+module.exports = {
+  patchTable,
+  postBlog,
+  getBlogs,
+  getBlogByID,
+  updateBlog,
+  deleteBlog,
+  
 module.exports = {
   getDestinationHotels,
   getDestinationRestaurants,
@@ -194,7 +263,4 @@ module.exports = {
   getDestination,
   getDestinationShops,
   getAssets,
-  getBlogs,
-  getOneBlog,
-  postBlog,
 };
