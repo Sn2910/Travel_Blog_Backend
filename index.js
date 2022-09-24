@@ -125,6 +125,8 @@ app.put("/api/blog/:id", (req, res) => {
 app.patch("/api/blog/:id", (req, res) => {
   const { id } = req.params;
   const fieldMapping = {
+    userName: "user_name",
+    blogDate: "blog_date",
     title: "title",
     richText: "rich_text",
     blogImage: "blog_image",
