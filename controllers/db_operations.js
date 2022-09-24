@@ -39,55 +39,6 @@ async function patchTable(table, fieldMapping, id, req) {
   return pool.query(sql, updateQuery);
 }
 
-function postDestination(update) {
-  return pool
-    .query(
-      `
-    INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
-    values ($1, $2, $3, $4, $5, $6) returning *;
-    `,
-      [
-        update.country,
-        update.city,
-        update.language,
-        update.country_coords,
-        update.city_info,
-        update.background_img_id,
-      ]
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
-
-function getDestinations() {
-  return pool
-    .query(
-      `
-    SELECT * FROM destinations;
-    `
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
-
-function getDestinationByID(id) {
-  return pool
-    .query("SELECT * FROM destinations WHERE id =$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
-}
-
-function deleteDestination(id) {
-  return pool
-    .query("DELETE FROM destinations where id=$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
-}
-
 function postBlog(update) {
   return pool
     .query(
@@ -121,16 +72,151 @@ function getBlogs() {
 }
 
 function getBlogByID(id) {
-  return pool
-    .query(
-      `
-    SELECT * FROM blogs WHERE id=$1;
-    `,
-      [id]
-    )
+/**
+ * This is a generic PostgreSQL database select fetch function
+ * @params sqlQuery is the complete string
+ * @returns result of the database query
+ * @todo refacoring: fields contains the fields to return, idField represents the field name in the where clause, id represents the identificator to look for. The commented code is ready to run
+ * @date 2022-09-23
+ */
+async function getSingleData(sqlQuery, destinationId) {
+  // const idField = `destination_id`;
+  // const fields = [];
+  // const fieldString = fields.length === 0 ? "*" : "";
+  // fieldString !== "*" &&
+  //   fields.forEach(field =>
+  //     fieldString === ""
+  //       ? fieldString.concat("'", field, "'")
+  //       : fieldString.concat(fieldString, ", '", field, "'")
+  //   );
+
+  // const queryString = idField !== "" ? `SELECT ${fieldString} FROM '${table}' WHERE ${idField} = $1;` : `SELECT ${fieldString} FROM '${table}'`;
+
+  let data;
+  await pool
+    .connect()
+    .then(async (client) => {
+      // return client.query(sqlQuery, [destinationId]).then(res => {
+      if (destinationId === null)
+        return client.query(sqlQuery).then((res) => {
+          client.release();
+          data = res.rows;
+        });
+      return client.query(sqlQuery, [destinationId]).then((res) => {
+        client.release();
+        data = res.rows;
+      });
+    })
+    .catch((e) => {
+      console.log(e.stack);
+    });
+  return data;
+}
+
+/**
+ * This function calls getSingleData() for quering the hotel table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+async function getDestinationHotels(destinationId) {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  return await getSingleData(
+    'SELECT * FROM "hotels" WHERE  destination_id = $1;',
+    destinationId
+  );
+
+  // return pool
+  //   .query("SELECT * FROM hotels WHERE  destination_id =$1;", [destinationId])
+  //   .then((data) => {
+  //     return data.rows;
+  //   });
+}
+
+/**
+ * This function calls getSingleData() for quering the shops table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+async function getDestinationShops(destinationId) {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  return await getSingleData(
+    'SELECT * FROM "shops" WHERE  destination_id =$1;',
+    destinationId
+  );
+}
+
+/**
+ * This function calls getSingleData() for quering the restaurants table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+async function getDestinationRestaurants(destinationId) {
+  //TODO:  Select data from Restaurants table by destination id .Return Data as an Array
+  return await getSingleData(
+    'SELECT * FROM "restaurants" WHERE  destination_id =$1;',
+    destinationId
+  );
+  /*  return pool
+    .query("SELECT * FROM restaurants WHERE  destination_id =$1;", [
+      destinationId,
+    ])
     .then((data) => {
       return data.rows;
-    });
+    }); */
+}
+
+/**
+ * This function calls getSingleData() for quering the destinations table of the database
+ *  @params no params
+ *  @return json object
+ */
+async function getDestination() {
+  /*  return pool.query(`SELECT * FROM destinations;`).then((data) => {
+    return data.rows;
+  }); */
+  return await getSingleData('SELECT * FROM "destinations";', null);
+}
+
+/**
+ * This function calls getSingleData() for quering the destinations table of the database
+ *  @params id represents the id to lookup for
+ *  @return json object
+ *  @todo outsourcing of everything except the database functionallity
+ */
+async function getOneDestination(id) {
+  //TODO:  Select data for one Destination by destination id .Return Data as an Array.store in destinationObj
+
+  /* pool.query("SELECT * FROM destinations WHERE id =$1;", [id]).then((data) => {
+    return data.rows;
+  }); */
+  getSingleData('SELECT * FROM "destinations" WHERE id =$1;', id);
+  const destinationObj = {
+    id: id,
+  };
+  const restaurants = await getDestinationRestaurants(destinationObj.id);
+  console.log(restaurants);
+  const hotels = await getDestinationHotels(destinationObj.id);
+  const shops = await getDestinationShops(destinationObj.id);
+  destinationObj.restaurants = restaurants;
+  destinationObj.hotels = hotels;
+  destinationObj.shops = shops;
+  console.log(destinationObj);
+
+  return destinationObj;
+}
+
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
+async function getAssets() {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  /* return (dbData = pool.query(`SELECT * FROM assets;`).then((data) => {
+    return data.rows;
+  })); */
+  return await getSingleData('SELECT * FROM "assets";', null);
 }
 
 function updateBlog(id, update) {
@@ -164,13 +250,17 @@ function deleteBlog(id) {
 
 module.exports = {
   patchTable,
-  postDestination,
-  getDestinations,
-  getDestinationByID,
-  deleteDestination,
   postBlog,
   getBlogs,
   getBlogByID,
   updateBlog,
   deleteBlog,
+  
+module.exports = {
+  getDestinationHotels,
+  getDestinationRestaurants,
+  getOneDestination,
+  getDestination,
+  getDestinationShops,
+  getAssets,
 };
