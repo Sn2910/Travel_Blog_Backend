@@ -1,13 +1,4 @@
-
 const { Pool } = require("PG");
-const {
-  patchTable,
-  postBlog,
-  updateBlog,
-  getBlogByID,
-  getBlogs,
-  deleteBlog,
-} = require("./controllers/db_operations");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -27,6 +18,12 @@ const {
   getDestination,
   getDestinationShops,
   getAssets,
+  patchTable,
+  postBlog,
+  updateBlog,
+  getBlogByID,
+  getBlogs,
+  deleteBlog,
 } = require("./controllers/db_operations");
 
 function sendErrorOutput(err, res) {

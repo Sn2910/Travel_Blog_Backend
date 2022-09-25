@@ -71,7 +71,6 @@ function getBlogs() {
     });
 }
 
-function getBlogByID(id) {
 /**
  * This is a generic PostgreSQL database select fetch function
  * @params sqlQuery is the complete string
@@ -249,18 +248,16 @@ function deleteBlog(id) {
 }
 
 module.exports = {
-  patchTable,
-  postBlog,
-  getBlogs,
-  getBlogByID,
-  updateBlog,
-  deleteBlog,
-  
-module.exports = {
   getDestinationHotels,
   getDestinationRestaurants,
   getOneDestination,
   getDestination,
   getDestinationShops,
   getAssets,
+  patchTable,
+  postBlog,
+  getBlogs,
+  getBlogByID,
+  updateBlog,
+  deleteBlog,
 };
