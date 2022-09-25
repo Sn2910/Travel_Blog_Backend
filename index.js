@@ -1,7 +1,14 @@
+require("dotenv").config();
 
+const express = require("express");
+const cors = require("cors");
 const { Pool } = require("PG");
 const {
   patchTable,
+  postDestination,
+  getDestinations,
+  getDestinationByID,
+  deleteDestination,
   postBlog,
   updateBlog,
   getBlogByID,
@@ -9,25 +16,12 @@ const {
   deleteBlog,
 } = require("./controllers/db_operations");
 
-const dotenv = require("dotenv");
-dotenv.config();
-const express = require("express");
-const cors = require("cors");
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
 
-//TODO : Import db operations controller functions here
-const {
-  getDestinationHotels,
-  getDestinationRestaurants,
-  getOneDestination,
-  getDestination,
-  getDestinationShops,
-  getAssets,
-} = require("./controllers/db_operations");
+const port = process.env.PORT || 5000;
 
 function sendErrorOutput(err, res) {
   res.status(400).send({
@@ -45,52 +39,42 @@ function sendErrorOutput(err, res) {
 //   ssl: { rejectUnauthorized: false },
 // }); // Move all to db-operation
 
-const port = process.env.PORT || 3000;
-// TODO: Move to db_operations.js
-
 app.get("/", (req, res) => {
   res.send("Testing");
 });
 
-app.get("/api/destinations", (req, res) => {
-  getDestination()
-    .then((destinations) => {
-      res.json(destinations);
+app.post("/api/destination", (req, res) => {
+  postDestination(req.body)
+    .then((data) => {
+      res.status(201).send(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
-app.get("/api/destinations/:id", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
+app.get("/api/destination", (req, res) => {
+  getDestinations()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+app.get("/api/destination/:id", (req, res) => {
   const { id } = req.params;
-
-  getOneDestination(id)
-    .then((destination) => {
-      res.json(destination);
+  getDestinationByID(id)
+    .then((data) => {
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
-4;
-app.get("/api/assets", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
 
-  getAssets()
-    .then((assets) => {
-      res.json(assets);
+app.delete("/api/destination/:id", (req, res) => {
+  const { id } = req.params;
+  deleteDestination(id)
+    .then(() => {
+      res.send({ status: "deleted" });
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.get("/api/blog", (req, res) => {
