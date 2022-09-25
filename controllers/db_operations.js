@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+
 const pool = new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -8,6 +9,7 @@ const pool = new Pool({
   ssl: true,
   ssl: { rejectUnauthorized: false },
 });
+
 
 /**
  * This is a generic PostgreSQL database select fetch function
@@ -90,10 +92,56 @@ async function getDestinationRestaurants(destinationId) {
     .query("SELECT * FROM restaurants WHERE  destination_id =$1;", [
       destinationId,
     ])
+async function patchTable(table, fieldMapping, id, req) {
+  // updates  [{field: 'name', value: 'Changed Name'}, {field: 'address', value: 'New York'}, {field: phone, value: '23423423'}]
+  const updates = Object.keys(req.body).map((param) => {
+    return {
+      field: fieldMapping[param],
+      value: req.body[param],
+    };
+  });
+
+  let updateQuery = [id];
+  let updateFields = [];
+  updates.forEach((element, index) => {
+    updateQuery.push(element.value);
+    updateFields.push(element.field + "=$" + (index + 2));
+  });
+
+  console.log("req.body", req.body);
+  console.log("updateQuery", updateQuery);
+  console.log("updateFields", updateFields);
+
+  sql = `
+      UPDATE ${table} 
+      SET ${updateFields.toString(", ")} 
+      WHERE id=$1`;
+
+  console.log("sql", sql);
+  return pool.query(sql, updateQuery);
+}
+
+function postDestination(update) {
+  return pool
+    .query(
+      `
+    INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
+    values ($1, $2, $3, $4, $5, $6) returning *;
+    `,
+      [
+        update.country,
+        update.city,
+        update.language,
+        update.country_coords,
+        update.city_info,
+        update.background_img_id,
+      ]
+    )
     .then((data) => {
       return data.rows;
-    }); */
+    });
 }
+
 
 /**
  * This function calls getSingleData() for quering the destinations table of the database
@@ -105,16 +153,28 @@ async function getDestination() {
     return data.rows;
   }); */
   return await makeDatabaseQuery('SELECT * FROM "destinations";', null);
+  
+function getDestinations() {
+  return pool
+    .query(
+      `
+    SELECT * FROM destinations;
+    `
+    )
+    .then((data) => {
+      return data.rows;
+    });
+
 }
 
-/**
- * This function calls getSingleData() for quering the destinations table of the database
- *  @params id represents the id to lookup for
- *  @return json object
- *  @todo outsourcing of everything except the database functionallity
- */
-async function getOneDestination(id) {
-  //TODO:  Select data for one Destination by destination id .Return Data as an Array.store in destinationObj
+function getDestinationByID(id) {
+  return pool
+    .query("SELECT * FROM destinations WHERE id =$1;", [id])
+    .then((data) => {
+      return data.rows;
+    });
+}
+
 
   /* pool.query("SELECT * FROM destinations WHERE id =$1;", [id]).then((data) => {
     return data.rows;
@@ -155,14 +215,49 @@ async function postCountry(insertData) {
   const { country, city, language, countryCoords, cityInfo, backgroundImgId } = insertData;
   return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id ) values ($1, $2, $3, $4, $5, $6) returning *;',
      [country, city, language, countryCoords, cityInfo, backgroundImgId] );
+
+function deleteDestination(id) {
+  return pool
+    .query("DELETE FROM destinations where id=$1;", [id])
+    .then((data) => {
+      return data.rows;
+    });
 }
 
-async function getBlogs() {
-  return pool.query(`SELECT * FROM blogs;`).then((data) => {
-    return data.rows;
-  });
+function postBlog(update) {
+  return pool
+    .query(
+      `
+    INSERT INTO blogs (user_name, blog_date, title, rich_text, blog_image)
+    values ($1, $2, $3, $4, $5) returning *;
+    `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+      ]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+
 }
-async function getOneBlog(id) {
+
+function getBlogs() {
+  return pool
+    .query(
+      `
+    SELECT * FROM blogs;
+    `
+    )
+    .then((data) => {
+      return data.rows;
+    });
+}
+
+function getBlogByID(id) {
   return pool
     .query(
       `
@@ -174,29 +269,46 @@ async function getOneBlog(id) {
       return data.rows;
     });
 }
-async function postBlog() {
+
+function updateBlog(id, update) {
   return pool
     .query(
       `
-        INSERT INTO blogs (user_name, blog_date, title, rich_text)
-        values ($1, $2, $3, $4) returning *;
-        `,
-      [req.body.userName, req.body.blogDate, req.body.title, req.body.richText]
+      UPDATE blogs
+      set user_name=$1, blog_date=$2, title=$3, rich_text=$4, blog_image=$5
+      where id=$6
+      returning *;
+      `,
+      [
+        update.userName,
+        update.blogDate,
+        update.title,
+        update.richText,
+        update.blogImage,
+        id,
+      ]
     )
     .then((data) => {
       return data.rows;
     });
 }
 
+function deleteBlog(id) {
+  return pool.query("DELETE FROM blogs where id=$1;", [id]).then((data) => {
+    return data.rows;
+  });
+}
+
 module.exports = {
-  getDestinationHotels,
-  getDestinationRestaurants,
-  getOneDestination,
-  getDestination,
-  getDestinationShops,
-  getAssets,
-  getBlogs,
-  getOneBlog,
+  patchTable,
+  postDestination,
+  getDestinations,
+  getDestinationByID,
+  deleteDestination,
   postBlog,
   postCountry
+  getBlogs,
+  getBlogByID,
+  updateBlog,
+  deleteBlog,
 };
