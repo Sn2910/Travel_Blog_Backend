@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 function sendErrorOutput(err, res) {
   res.status(400).send({
