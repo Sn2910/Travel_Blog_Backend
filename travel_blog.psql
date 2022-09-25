@@ -2,8 +2,6 @@ create table users(
     id serial PRIMARY KEY,
     name varchar(255)
 );
-
-
 create table assets(
      id serial primary key,
      img_url varchar(255)
@@ -11,48 +9,7 @@ create table assets(
  
 );
 insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3nSVty2DeRQHcn2B4vtO4l/3db0f4b75ee6ae7ab0035dba376929b5/berlin.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7a5gUKTFkkJmCzN5b9djRq/8140d505e9e207b02fb3dc6117af46ab/Bucuresti_Romania._SPITALUL_COLTEA__B-II-m-A-18220.02_.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/L482xdEnwTw05BXEDgXac/3ecae0f3f8b8ff305b10eb8a87c289b3/austria.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/1ikKruIIESuRrxsOgPqVDY/d52fd2948225600ced02d1a6e6974a36/netherlands.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4zMmlEgxOB9p42gi6r7BRv/9772d4cbc98c3c9b1e04356eed027767/Eiffel_Tower_from_the_Tour_Montparnasse_3_Paris_May_2014.jpg');
-
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/79XPu6Wc7Crh5FXKQHLykQ/32ef627516140d89433540c432f81369/b-hotel3.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/643UrjsHOAmPq1ZFedmzl8/8ce02b0b2a8c30c43cf24e1d8b9c6e8c/b-hotel2.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/61tmf0t1lm6QurQ9wYnYK6/c4b3084b8a4970952b01b6452af62ea5/r-hotel1.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5P2JdfDUpA9nALr00dWA3Z/a79ad8a061ee2e039c8ce5ac38270e93/r-hotel2.webp');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4NvUmpY5iRTjq2DSXch2bR/2fcbb4ea9265e45168f1b0b6dc2427c0/v-hotel1.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/10Li308tL7bLaAzuvHAkHM/0ef9a8b8ca256e056c0dc0977729da91/v-hotel2.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3br80SDwCade33Zo1Nt45e/d79d7fce6a14e44457f5ec8e463c3857/a-hotel1.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/2o8eOikBqicp2hpVAo4LV1/859408093e396e378b46b5885f94844b/a-hotel3.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5ArIliYEukUeEQOoSbnDtt/14d1522e674ae6fcd19c222b6c2a57a7/p-hotel1.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7cr7bbcz0mItft4sxfziXo/fb973b40f8197dc464e6826ed9f69334/p-hotel3.jpg');
-
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/OFPkzcp9UKONx74quPQo9/3499b12b8ad2336537ee130f1f47ca8a/2022-05-05.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/veyHg0PUbUGVyR51K9ls1/3fd9d3f1d4a7bfdcd1cef650c15ea6db/foodcourt1.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/39dFlHQWQzeXhVHqJyKO7y/1a7faa285dafb864bb5655506c57d237/r-shop2.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6dMcIFTir3aL6Qh8eHcxjz/237cd63c60dc142804f136a3b940c131/r-shop.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3Gp6BTN4ozX2iMMa85FNSa/4f7782705833db041398810e38f8ee89/a-shop2.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4BnoohCVtsKIEnWakQQcNp/232f2bafce84e1b5d9b5cf546d86abfa/a-shop.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/3fS30SgECipAWgimglEHT3/6fae6c981eada562be16bf6d1581aca0/2021-06-07.png');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/ouKZoAumynm2HDs8PibF3/982efea1843f0a94193c267297593997/beelden_gp3.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4iDoTGHQ8DpOXVWKDVCnPH/5ba280ec85a8df47bfbe66c8cf9d6731/original_ecbe20c9-f528-4820-adfa-f14174bf76ab_IMG_20220721_125001.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/71kboNZLqRZpFHoMjCDb1Q/9b19139c08398bdc0f18e6f49747231a/2022-08-09.jpg');
-
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4Fj3AS7TYFHHG3Bx5Hg8gK/cb946750b27a8328c246ca264a0ac9f8/MAREDO_berlin.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7H1GXGYtHyN5bbGoVBaJ6O/717f000af7d865b52c5cf1ba4063f8f8/the-main-room-with-pretty.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6VmFq5LmGkfGTjYos0jvZK/13333a815b1b9b7f2a2c0a5480621a06/imperial-turkish-cuisine.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6XIU7cQiyu4hSdlMjXFLpC/4d63ac7d21a6579472c66b0e3058e87a/join-us-at-tuya.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/4FXU820LTVHtVC3HpUGFJu/4adf4f2beaf614d6755a08a7fe68be82/photo6jpg.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/6Mf1vJ8SAP59NvX1TilyLI/4a3d66c87deff5b9aaeb0f89484ccfc3/interior-of-the-restaurant.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/5ID1nVbHJtOkaEvZKyiZRF/a9f0ec0b0fe16c53692e3ee0797ec95b/vadouvan-chef-arturo.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/2UAJoFXLh5cNMR39gQKX26/930757f83613f3d1b58feb6c22b1a068/thinly-sliced-cured-venison.jpg');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/7nrnWahX9raIKUoO3XdnyQ/1f2b36a57c548dbbe58cddc594b4c4de/__GeraldineMartens-_DSC9156.webp');
-insert into assets (img_url) values ('https://images.ctfassets.net/nhmza5agg8r7/emgJPBJEA4KsgxD1CiBVN/aaa7be9007d4254faa9cde7f27a78026/chou-frise-a-la-mode.jpg');
-
 select * from assets;
-
-
-
 create table destinations(
     id serial primary key,
     country varchar(255),
@@ -60,28 +17,15 @@ create table destinations(
     language varchar(255),
     country_coords varchar(500),
     city_info varchar(50000),
-    background_img_id int, 
+   
+    background_img_id int,
+    
+  
    FOREIGN KEY (background_img_id) REFERENCES assets(id)
 );
+insert into destinations (country, city, language, country_coords, city_info,) 
+values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
 
-insert into destinations (country, city, language, country_coords, city_info, background_img_id ) 
-values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin  is the capital  and a state of the Federal Republic of Germany . With around 3.7 million inhabitants , the city is the most populous and, at 892 square kilometers, the largest municipality in Germany and the most populous city in the European Union . With 4123 inhabitants per square kilometer, the city has the third highest population density in Germany. Almost 4.7 million people live in the Berlin aglomeration Capital region Berlin-Brandenburg around 6.2 million. The city-state consists of twelve districts . In addition to the rivers Spree , Havel and Dahme , there are smaller watercourses in the city area as well as numerous lakes and forests.
-In 1237 and 1244, the neighboring towns of Alt-Köln and Alt-Berlin were first mentioned in what is now the historical center . The double city was founded as a trading center and rose to become an important economic center in the Middle Ages . In its nearly 800-year history , Berlin has functioned as the capital of Mark Brandenburg , Prussia and Germany . After the end of World War II , the city was subject to four- power status in 1945 ; From 1949 East Berlin served as the capital of the socialist German Democratic Republic , while West Berlin was closely attached to the free-democratic Federal Republic . With the fall of the Berlin Wall in 1989 and German reunification in 1990, the two halves of the city grew together again and Berlin regained its role as the all-German capital. Since 1999, the city has been the seat of the Federal Government , the Federal President , the German Bundestag , the Bundesrat and most federal ministries , numerous federal agencies and embassies.
-The most important branches of Berlin economy include tourism , the creative and cultural industries , biotechnology and healthcare with medical technology and the pharmaceutical industry , information and communication technologies , the construction and real estate industries , trade , optoelectronics , energy technology and trade fairs and congress industry . The city is European Transport hub of road , rail and air traffic . Berlin is one of the up-and-coming, international centers for innovative company founders and start-up companies . Berlin records high annual growth rates in the number of people in work . 
-Berlin is considered a cosmopolitan city of culture , politics , media and science .  The local universities and research institutes , local sports and museums enjoy an international reputation. The metropolis has the UNESCO title City of Design and is one of the most visited centers on the continent.  Architecture , festivities and nightlifeare known worldwide. 
-',1);
-
-insert into destinations (country, city, language, country_coords, city_info, background_img_id ) 
-values ('Romania', 'Bucharest', 'Romanian', '429,406,409,406,398,416,387,432,391,452,408,460,421,472,444,475,457,462,475,468,478,452,468,425,459,403', 'Romania  is a country located at the crossroads of Central, Eastern, and Southeastern Europe. It borders Bulgaria to the south, Ukraine to the north, Hungary to the west, Serbia to the southwest, Moldova to the east, and the Black Sea to the southeast. It has a predominantly temperate-continental climate, and an area of 238,397 km2 (92,046 sq mi), with a population of around 19 million. Romania is the twelfth-largest country in Europe and the sixth-most populous member state of the European Union. Its capital and largest city is Bucharest, followed by Iași, Cluj-Napoca, Timișoara, Constanța, Craiova, Sibiu, Brașov, and Galați.
-The Danube, Europe second-longest river, rises in Germany Black Forest and flows in a southeasterly direction for 2,857 km (1,775 mi), before emptying into Romania Danube Delta. The Carpathian Mountains, which cross Romania from the north to the southwest, include Moldoveanu Peak, at an altitude of 2,544 m (8,346 ft).
-Settlement in what is now Romania began in the Lower Paleolithic, with written records attesting the kingdom of Dacia, its conquest and subsequent Latinization by the Roman Empire. The modern Romanian state was formed in 1859 through a personal union of the Danubian Principalities of Moldavia and Wallachia. The new state, officially named Romania since 1866, gained independence from the Ottoman Empire in 1877. During World War I, after declaring its neutrality in 1914, Romania fought together with the Allied Powers from 1916. In the aftermath of the war, Bukovina, Bessarabia, Transylvania, and parts of Banat, Crișana, and Maramureș became part of the Kingdom of Romania.[14] In June–August 1940, as a consequence of the Molotov–Ribbentrop Pact and Second Vienna Award, Romania was compelled to cede Bessarabia and Northern Bukovina to the Soviet Union and Northern Transylvania to Hungary. In November 1940, Romania signed the Tripartite Pact and, consequently, in June 1941 entered World War II on the Axis side, fighting against the Soviet Union until August 1944, when it joined the Allies and recovered Northern Transylvania. Following the war and occupation by the Red Army, Romania became a socialist republic and a member of the Warsaw Pact. After the 1989 Revolution, Romania began a transition towards democracy and a market economy.
-Romania is a developing country with a high-income economy,[15][16] ranking 49th in the Human Development Index. It has the world 47th largest economy by nominal GDP. Romania experienced rapid economic growth in the early 2000s; its economy is now based predominantly on services. It is a producer and net exporter of machines and electric energy through companies like Automobile Dacia and OMV Petrom. Romania has been a member of the United Nations since 1955, NATO since 2004 and the European Union (EU) since 2007. The majority of Romania population are ethnic Romanian and religiously identify themselves as Eastern Orthodox Christians, speaking Romanian, a Romance language. The Romanian Orthodox Church is the largest and traditional church of the country.
-
-',2);
-
-
-
-select * from destinations where id = 2;
 
 create table hotels(
     id serial primary key,
@@ -90,42 +34,25 @@ create table hotels(
     price float,
     url varchar(500),
     rating float,
-    reviews int,
     destination_id int,
      image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
      FOREIGN KEY (image_id) REFERENCES assets(id)
 
 );
-
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Meininger Hotel','It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',90,'https://www.meininger-hotels.com/',4,800,1,6);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,1,7);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Hello Hotels','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',40,'https://hello-hotels-bucuresti.continentalhotels.ro/',4,407,2,8);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Europa Royale Hotel','Many desktop publishing packages and web page editors now use Lorem Ipsum.',84,'https://hotelbucharest.top/',4.5,756,2,9);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,3,10);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,3,11);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,4,12);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,4,13);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,5,14);
-insert into hotels ( name,description,price,url,rating, reviews,destination_id,image_id) values ('St Christophers Inn','There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.',88,'https://www.st-christophers.co.uk/berlin/mitte-hostel/',4.5,678,5,15);
-
-create table restaurants(
+create table restuarants(
     id serial primary key,
     name varchar(255),
     description varchar(500),
     price float,
     url varchar(500),
     rating float,
-    reviews int,
     destination_id int,
     image_id int,
-    FOREIGN KEY (destination_id) REFERENCES destinations(id),
-    FOREIGN KEY (image_id) REFERENCES assets(id)
+     FOREIGN KEY (destination_id) REFERENCES destinations(id),
+ FOREIGN KEY (image_id) REFERENCES assets(id)
 
 );
-insert into restaurants ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Gendarmenmarkt','CUISINES Steakhouse, Barbecue, Grill SPECIAL DIETS
-Vegetarian Friendly, Gluten Free Options',20,'https://www.maredo.com/ueber-maredo/ueber-uns',4.5,756,1,27);
-select * from restaurants;
 create table shops(
     id serial primary key,
     name varchar(255),
@@ -133,13 +60,11 @@ create table shops(
     price float,
     url varchar(500),
     rating float,
-    reviews int,
     destination_id int,
      image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
      FOREIGN KEY (image_id) REFERENCES assets(id)
 );
-insert into shops ( name,description,price,url,rating, reviews,destination_id,image_id) values ('Schönhauser Allee Arcaden','Bright & modern shopping center housing retail chains, grocery stores & a public library branch.',20,'https://www.schoenhauser-allee-arcaden.de/',4.7,876,1,16);
 
 create table blogs(
     id serial primary key,
@@ -167,12 +92,8 @@ select * from blogs;
 delete from blogs
 where id between 4 and 5;
 
-select * from restaurants where destination_id =1;
  drop table destinations;
 drop table hotels;
-drop table restaurants;
+drop table restuarants;
 drop table shops;
 drop table blogs;
-
-select destinations.id, destinations.country, destinations.city,destinations.language,destinations.country_coords,destinations.city_info,destinations.background_img_id authors.id as author_id,  authors.name from books 
-join authors on books.author_id = authors.id;
