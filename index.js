@@ -1,39 +1,26 @@
-require("dotenv").config();
-
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const cors = require("cors");
-const { Pool } = require("PG");
-const {
-  patchTable,
-  postDestination,
-  getDestinations,
-  getDestinationByID,
-  deleteDestination,
-  postBlog,
-  updateBlog,
-  getBlogByID,
-  getBlogs,
-  deleteBlog,
-} = require("./controllers/db_operations");
-
 const app = express();
 app.use(express.json());
-app.use(cors());
-app.use(express.static("public"));
+app.use(cors())
 
 
 //TODO : Import db operations controller functions here
 const {
-  getDestinationHotels,
-  getDestinationRestaurants,
+ 
+  getDestinations,
   getOneDestination,
-  getDestination,
-  getDestinationShops,
-  getAssets,
-  getBlogs,
-  getOneBlog,
+  deleteDestination,
   postBlog,
-  postCountry
+  postCountry,
+  getBlogs,
+  getBlogByID,
+  updateBlog,
+  deleteBlog,
+  getAssets,
+  patchTable,
 } = require("./controllers/db_operations");
 
 
@@ -59,36 +46,11 @@ app.get("/", (req, res) => {
   res.send("Testing");
 });
 
-app.post("/api/destination", (req, res) => {
-  postDestination(req.body)
-    .then((data) => {
-      res.status(201).send(data);
-    })
-    .catch((err) => sendErrorOutput(err, res));
-});
 
-app.get("/api/destination", (req, res) => {
+app.get("/api/destinations", (req, res) => {
   getDestinations()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => sendErrorOutput(err, res));
-});
-
-app.get("/api/destination/:id", (req, res) => {
-  const { id } = req.params;
-  getDestinationByID(id)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => sendErrorOutput(err, res));
-});
-
-app.post("/api/destinations",(req,res)=>{
-
-  postCountry(req.body)
-    .then((country) => {
-      res.json(country);
+    .then((destinations) => {
+      res.json(destinations)
     })
     .catch((err) => {
       res.status(400).send({
@@ -96,19 +58,35 @@ app.post("/api/destinations",(req,res)=>{
       });
     });
 
-})
+});
+
+app.get("/api/destinations/:id", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+  const { id } = req.params;
+
+  getOneDestination(id)
+    .then((destination) => {
+      res.json(destination);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+});
+
 app.get("/api/assets", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
-
-
-
-app.delete("/api/destination/:id", (req, res) => {
-  const { id } = req.params;
-  deleteDestination(id)
-    .then(() => {
-      res.send({ status: "deleted" });
+  getAssets()
+    .then((assets) => {
+      res.json(assets);
     })
-    .catch((err) => sendErrorOutput(err, res));
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+
 });
 
 app.get("/api/blog", (req, res) => {

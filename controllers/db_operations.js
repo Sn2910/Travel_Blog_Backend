@@ -88,10 +88,8 @@ async function getDestinationRestaurants(destinationId) {
     'SELECT * FROM "restaurants" WHERE  destination_id =$1;',
     [destinationId]
   );
-  /*  return pool
-    .query("SELECT * FROM restaurants WHERE  destination_id =$1;", [
-      destinationId,
-    ])
+}
+   
 async function patchTable(table, fieldMapping, id, req) {
   // updates  [{field: 'name', value: 'Changed Name'}, {field: 'address', value: 'New York'}, {field: phone, value: '23423423'}]
   const updates = Object.keys(req.body).map((param) => {
@@ -148,33 +146,15 @@ function postDestination(update) {
  *  @params no params
  *  @return json object
  */
-async function getDestination() {
+async function getDestinations() {
   /*  return pool.query(`SELECT * FROM destinations;`).then((data) => {
     return data.rows;
   }); */
   return await makeDatabaseQuery('SELECT * FROM "destinations";', null);
   
-function getDestinations() {
-  return pool
-    .query(
-      `
-    SELECT * FROM destinations;
-    `
-    )
-    .then((data) => {
-      return data.rows;
-    });
-
 }
-
-function getDestinationByID(id) {
-  return pool
-    .query("SELECT * FROM destinations WHERE id =$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
-}
-
+ async function getOneDestination(id) {
+ 
 
   /* pool.query("SELECT * FROM destinations WHERE id =$1;", [id]).then((data) => {
     return data.rows;
@@ -215,6 +195,7 @@ async function postCountry(insertData) {
   const { country, city, language, countryCoords, cityInfo, backgroundImgId } = insertData;
   return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id ) values ($1, $2, $3, $4, $5, $6) returning *;',
      [country, city, language, countryCoords, cityInfo, backgroundImgId] );
+}
 
 function deleteDestination(id) {
   return pool
@@ -300,15 +281,17 @@ function deleteBlog(id) {
 }
 
 module.exports = {
-  patchTable,
-  postDestination,
+
+
   getDestinations,
-  getDestinationByID,
+  getOneDestination,
   deleteDestination,
   postBlog,
-  postCountry
+  postCountry,
   getBlogs,
   getBlogByID,
   updateBlog,
   deleteBlog,
-};
+  getAssets,
+  patchTable,
+}
