@@ -16,33 +16,26 @@ const pool = new Pool({
  * @todo refacoring: fields contains the fields to return, idField represents the field name in the where clause, id represents the identificator to look for. The commented code is ready to run
  * @date 2022-09-23
  */
-async function getSingleData(sqlQuery, destinationId) {
-  // const idField = `destination_id`;
-  // const fields = [];
-  // const fieldString = fields.length === 0 ? "*" : "";
-  // fieldString !== "*" &&
-  //   fields.forEach(field =>
-  //     fieldString === ""
-  //       ? fieldString.concat("'", field, "'")
-  //       : fieldString.concat(fieldString, ", '", field, "'")
-  //   );
-
-  // const queryString = idField !== "" ? `SELECT ${fieldString} FROM '${table}' WHERE ${idField} = $1;` : `SELECT ${fieldString} FROM '${table}'`;
-
+async function makeDatabaseQuery(sqlQuery, params) {
   let data;
   await pool
     .connect()
     .then(async (client) => {
-      // return client.query(sqlQuery, [destinationId]).then(res => {
-      if (destinationId === null)
-        return client.query(sqlQuery).then((res) => {
-          client.release();
-          data = res.rows;
-        });
-      return client.query(sqlQuery, [destinationId]).then((res) => {
+      return client.query(sqlQuery, params).then((res) => {
         client.release();
         data = res.rows;
       });
+
+      /* else if(destinationId === insertData){
+        return client.query(sqlQuery, [insertData]).then((res) => {
+          client.release();
+          data = res.rows;
+        });
+
+      } */
+
+
+
     })
     .catch((e) => {
       console.log(e.stack);
@@ -57,9 +50,9 @@ async function getSingleData(sqlQuery, destinationId) {
  */
 async function getDestinationHotels(destinationId) {
   //TODO:  Select data from Hotels table by destination id .Return Data as an Array
-  return await getSingleData(
+  return await makeDatabaseQuery(
     'SELECT * FROM "hotels" WHERE  destination_id = $1;',
-    destinationId
+    [destinationId]
   );
 
   // return pool
@@ -76,9 +69,9 @@ async function getDestinationHotels(destinationId) {
  */
 async function getDestinationShops(destinationId) {
   //TODO:  Select data from Hotels table by destination id .Return Data as an Array
-  return await getSingleData(
+  return await makeDatabaseQuery(
     'SELECT * FROM "shops" WHERE  destination_id =$1;',
-    destinationId
+    [destinationId]
   );
 }
 
@@ -89,9 +82,9 @@ async function getDestinationShops(destinationId) {
  */
 async function getDestinationRestaurants(destinationId) {
   //TODO:  Select data from Restaurants table by destination id .Return Data as an Array
-  return await getSingleData(
+  return await makeDatabaseQuery(
     'SELECT * FROM "restaurants" WHERE  destination_id =$1;',
-    destinationId
+    [destinationId]
   );
   /*  return pool
     .query("SELECT * FROM restaurants WHERE  destination_id =$1;", [
@@ -111,7 +104,7 @@ async function getDestination() {
   /*  return pool.query(`SELECT * FROM destinations;`).then((data) => {
     return data.rows;
   }); */
-  return await getSingleData('SELECT * FROM "destinations";', null);
+  return await makeDatabaseQuery('SELECT * FROM "destinations";', null);
 }
 
 /**
@@ -126,7 +119,7 @@ async function getOneDestination(id) {
   /* pool.query("SELECT * FROM destinations WHERE id =$1;", [id]).then((data) => {
     return data.rows;
   }); */
-  getSingleData('SELECT * FROM "destinations" WHERE id =$1;', id);
+  makeDatabaseQuery('SELECT * FROM "destinations" WHERE id =$1;', [id]);
   const destinationObj = {
     id: id,
   };
@@ -150,10 +143,18 @@ async function getOneDestination(id) {
  */
 async function getAssets() {
   //TODO:  Select data from Hotels table by destination id .Return Data as an Array
-  /* return (dbData = pool.query(`SELECT * FROM assets;`).then((data) => {
-    return data.rows;
-  })); */
-  return await getSingleData('SELECT * FROM "assets";', null);
+  return await makeDatabaseQuery('SELECT * FROM "assets";', null);
+}
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
+async function postCountry(insertData) {
+  const { country, city, language, countryCoords, cityInfo, backgroundImgId } = insertData;
+  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id ) values ($1, $2, $3, $4, $5, $6) returning *;',
+     [country, city, language, countryCoords, cityInfo, backgroundImgId] );
 }
 
 async function getBlogs() {
@@ -197,4 +198,5 @@ module.exports = {
   getBlogs,
   getOneBlog,
   postBlog,
+  postCountry
 };

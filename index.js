@@ -19,6 +19,7 @@ const {
   getBlogs,
   getOneBlog,
   postBlog,
+  postCountry
 } = require("./controllers/db_operations");
 
 const port = process.env.PORT || 3000;
@@ -54,7 +55,19 @@ app.get("/api/destinations/:id", (req, res) => {
       });
     });
 });
-4;
+app.post("/api/destinations",(req,res)=>{
+
+  postCountry(req.body)
+    .then((country) => {
+      res.json(country);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+
+})
 app.get("/api/assets", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
 

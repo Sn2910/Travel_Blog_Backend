@@ -64,6 +64,13 @@ create table destinations(
    FOREIGN KEY (background_img_id) REFERENCES assets(id)
 );
 
+alter table destinations
+add column background_img_url varchar(500);
+
+
+
+
+
 insert into destinations (country, city, language, country_coords, city_info, background_img_id ) 
 values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin  is the capital  and a state of the Federal Republic of Germany . With around 3.7 million inhabitants , the city is the most populous and, at 892 square kilometers, the largest municipality in Germany and the most populous city in the European Union . With 4123 inhabitants per square kilometer, the city has the third highest population density in Germany. Almost 4.7 million people live in the Berlin aglomeration Capital region Berlin-Brandenburg around 6.2 million. The city-state consists of twelve districts . In addition to the rivers Spree , Havel and Dahme , there are smaller watercourses in the city area as well as numerous lakes and forests.
 In 1237 and 1244, the neighboring towns of Alt-Köln and Alt-Berlin were first mentioned in what is now the historical center . The double city was founded as a trading center and rose to become an important economic center in the Middle Ages . In its nearly 800-year history , Berlin has functioned as the capital of Mark Brandenburg , Prussia and Germany . After the end of World War II , the city was subject to four- power status in 1945 ; From 1949 East Berlin served as the capital of the socialist German Democratic Republic , while West Berlin was closely attached to the free-democratic Federal Republic . With the fall of the Berlin Wall in 1989 and German reunification in 1990, the two halves of the city grew together again and Berlin regained its role as the all-German capital. Since 1999, the city has been the seat of the Federal Government , the Federal President , the German Bundestag , the Bundesrat and most federal ministries , numerous federal agencies and embassies.
@@ -81,7 +88,9 @@ Romania is a developing country with a high-income economy,[15][16] ranking 
 
 
 
-select * from destinations where id = 2;
+select * from destinations where id = 4;
+
+update destinations set background_img_url = 'https://thumbs.dreamstime.com/b/karlskirche-vienna-austria-sunrise-st-charles-s-church-34433823.jpg' where id = 4;
 
 create table hotels(
     id serial primary key,
