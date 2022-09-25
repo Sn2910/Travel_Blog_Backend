@@ -21,6 +21,22 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
 
+
+//TODO : Import db operations controller functions here
+const {
+  getDestinationHotels,
+  getDestinationRestaurants,
+  getOneDestination,
+  getDestination,
+  getDestinationShops,
+  getAssets,
+  getBlogs,
+  getOneBlog,
+  postBlog,
+  postCountry
+} = require("./controllers/db_operations");
+
+
 const port = process.env.PORT || 3000;
 
 function sendErrorOutput(err, res) {
@@ -67,6 +83,24 @@ app.get("/api/destination/:id", (req, res) => {
     })
     .catch((err) => sendErrorOutput(err, res));
 });
+
+app.post("/api/destinations",(req,res)=>{
+
+  postCountry(req.body)
+    .then((country) => {
+      res.json(country);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+
+})
+app.get("/api/assets", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+
+
 
 app.delete("/api/destination/:id", (req, res) => {
   const { id } = req.params;
