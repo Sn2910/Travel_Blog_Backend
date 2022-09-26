@@ -126,9 +126,8 @@ app.patch("/api/blog/:id", (req, res) => {
     title: "title",
     richText: "rich_text",
     blogImage: "blog_image",
-    id,
   };
-
+  console.log(id);
   patchTable("blogs", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
