@@ -5,10 +5,6 @@ const cors = require("cors");
 const { Pool } = require("PG");
 const {
   patchTable,
-  postDestination,
-  getDestinations,
-  getDestinationByID,
-  deleteDestination,
   postBlog,
   updateBlog,
   getBlogByID,

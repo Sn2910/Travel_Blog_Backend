@@ -39,54 +39,54 @@ async function patchTable(table, fieldMapping, id, req) {
   return pool.query(sql, updateQuery);
 }
 
-function postDestination(update) {
-  return pool
-    .query(
-      `
-    INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
-    values ($1, $2, $3, $4, $5, $6) returning *;
-    `,
-      [
-        update.country,
-        update.city,
-        update.language,
-        update.country_coords,
-        update.city_info,
-        update.background_img_id,
-      ]
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
+// function postDestination(update) {
+//   return pool
+//     .query(
+//       `
+//     INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
+//     values ($1, $2, $3, $4, $5, $6) returning *;
+//     `,
+//       [
+//         update.country,
+//         update.city,
+//         update.language,
+//         update.country_coords,
+//         update.city_info,
+//         update.background_img_id,
+//       ]
+//     )
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
 
-function getDestinations() {
-  return pool
-    .query(
-      `
-    SELECT * FROM destinations;
-    `
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
+// function getDestinations() {
+//   return pool
+//     .query(
+//       `
+//     SELECT * FROM destinations;
+//     `
+//     )
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
 
-function getDestinationByID(id) {
-  return pool
-    .query("SELECT * FROM destinations WHERE id =$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
-}
+// function getDestinationByID(id) {
+//   return pool
+//     .query("SELECT * FROM destinations WHERE id =$1;", [id])
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
 
-function deleteDestination(id) {
-  return pool
-    .query("DELETE FROM destinations where id=$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
-}
+// function deleteDestination(id) {
+//   return pool
+//     .query("DELETE FROM destinations where id=$1;", [id])
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
 
 function postBlog(update) {
   return pool
@@ -164,10 +164,6 @@ function deleteBlog(id) {
 
 module.exports = {
   patchTable,
-  postDestination,
-  getDestinations,
-  getDestinationByID,
-  deleteDestination,
   postBlog,
   getBlogs,
   getBlogByID,
