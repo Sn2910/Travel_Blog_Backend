@@ -27,35 +27,6 @@ insert into destinations (country, city, language, country_coords, city_info,)
 values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
 
 
-alter table destinations
-add column background_img_url varchar(500);
-
-
-
-
-
-insert into destinations (country, city, language, country_coords, city_info, background_img_id ) 
-values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin  is the capital  and a state of the Federal Republic of Germany . With around 3.7 million inhabitants , the city is the most populous and, at 892 square kilometers, the largest municipality in Germany and the most populous city in the European Union . With 4123 inhabitants per square kilometer, the city has the third highest population density in Germany. Almost 4.7 million people live in the Berlin aglomeration Capital region Berlin-Brandenburg around 6.2 million. The city-state consists of twelve districts . In addition to the rivers Spree , Havel and Dahme , there are smaller watercourses in the city area as well as numerous lakes and forests.
-In 1237 and 1244, the neighboring towns of Alt-Köln and Alt-Berlin were first mentioned in what is now the historical center . The double city was founded as a trading center and rose to become an important economic center in the Middle Ages . In its nearly 800-year history , Berlin has functioned as the capital of Mark Brandenburg , Prussia and Germany . After the end of World War II , the city was subject to four- power status in 1945 ; From 1949 East Berlin served as the capital of the socialist German Democratic Republic , while West Berlin was closely attached to the free-democratic Federal Republic . With the fall of the Berlin Wall in 1989 and German reunification in 1990, the two halves of the city grew together again and Berlin regained its role as the all-German capital. Since 1999, the city has been the seat of the Federal Government , the Federal President , the German Bundestag , the Bundesrat and most federal ministries , numerous federal agencies and embassies.
-The most important branches of Berlin economy include tourism , the creative and cultural industries , biotechnology and healthcare with medical technology and the pharmaceutical industry , information and communication technologies , the construction and real estate industries , trade , optoelectronics , energy technology and trade fairs and congress industry . The city is European Transport hub of road , rail and air traffic . Berlin is one of the up-and-coming, international centers for innovative company founders and start-up companies . Berlin records high annual growth rates in the number of people in work . 
-Berlin is considered a cosmopolitan city of culture , politics , media and science .  The local universities and research institutes , local sports and museums enjoy an international reputation. The metropolis has the UNESCO title City of Design and is one of the most visited centers on the continent.  Architecture , festivities and nightlifeare known worldwide. 
-',1);
-
-insert into destinations (country, city, language, country_coords, city_info, background_img_id ) 
-values ('Romania', 'Bucharest', 'Romanian', '429,406,409,406,398,416,387,432,391,452,408,460,421,472,444,475,457,462,475,468,478,452,468,425,459,403', 'Romania  is a country located at the crossroads of Central, Eastern, and Southeastern Europe. It borders Bulgaria to the south, Ukraine to the north, Hungary to the west, Serbia to the southwest, Moldova to the east, and the Black Sea to the southeast. It has a predominantly temperate-continental climate, and an area of 238,397 km2 (92,046 sq mi), with a population of around 19 million. Romania is the twelfth-largest country in Europe and the sixth-most populous member state of the European Union. Its capital and largest city is Bucharest, followed by Iași, Cluj-Napoca, Timișoara, Constanța, Craiova, Sibiu, Brașov, and Galați.
-The Danube, Europe second-longest river, rises in Germany Black Forest and flows in a southeasterly direction for 2,857 km (1,775 mi), before emptying into Romania Danube Delta. The Carpathian Mountains, which cross Romania from the north to the southwest, include Moldoveanu Peak, at an altitude of 2,544 m (8,346 ft).
-Settlement in what is now Romania began in the Lower Paleolithic, with written records attesting the kingdom of Dacia, its conquest and subsequent Latinization by the Roman Empire. The modern Romanian state was formed in 1859 through a personal union of the Danubian Principalities of Moldavia and Wallachia. The new state, officially named Romania since 1866, gained independence from the Ottoman Empire in 1877. During World War I, after declaring its neutrality in 1914, Romania fought together with the Allied Powers from 1916. In the aftermath of the war, Bukovina, Bessarabia, Transylvania, and parts of Banat, Crișana, and Maramureș became part of the Kingdom of Romania.[14] In June–August 1940, as a consequence of the Molotov–Ribbentrop Pact and Second Vienna Award, Romania was compelled to cede Bessarabia and Northern Bukovina to the Soviet Union and Northern Transylvania to Hungary. In November 1940, Romania signed the Tripartite Pact and, consequently, in June 1941 entered World War II on the Axis side, fighting against the Soviet Union until August 1944, when it joined the Allies and recovered Northern Transylvania. Following the war and occupation by the Red Army, Romania became a socialist republic and a member of the Warsaw Pact. After the 1989 Revolution, Romania began a transition towards democracy and a market economy.
-Romania is a developing country with a high-income economy,[15][16] ranking 49th in the Human Development Index. It has the world 47th largest economy by nominal GDP. Romania experienced rapid economic growth in the early 2000s; its economy is now based predominantly on services. It is a producer and net exporter of machines and electric energy through companies like Automobile Dacia and OMV Petrom. Romania has been a member of the United Nations since 1955, NATO since 2004 and the European Union (EU) since 2007. The majority of Romania population are ethnic Romanian and religiously identify themselves as Eastern Orthodox Christians, speaking Romanian, a Romance language. The Romanian Orthodox Church is the largest and traditional church of the country.
-
-',2);
-
-
-
-select * from destinations where id = 4;
-
-update destinations set background_img_url = 'https://thumbs.dreamstime.com/b/karlskirche-vienna-austria-sunrise-st-charles-s-church-34433823.jpg' where id = 4;
-
-
 create table hotels(
     id serial primary key,
     name varchar(255),
