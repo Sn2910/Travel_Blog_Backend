@@ -1,30 +1,23 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
-const app = express();
-app.use(express.json());
-app.use(cors())
-
-
-//TODO : Import db operations controller functions here
+const { Pool } = require("PG");
 const {
- 
-  getDestinations,
-  getOneDestination,
-  deleteDestination,
-  postBlog,
-  postCountry,
-  getBlogs,
-  getBlogByID,
-  updateBlog,
-  deleteBlog,
-  getAssets,
   patchTable,
+  postBlog,
+  updateBlog,
+  getBlogByID,
+  getBlogs,
+  deleteBlog,
 } = require("./controllers/db_operations");
 
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(express.static("public"));
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 function sendErrorOutput(err, res) {
   res.status(400).send({
@@ -46,47 +39,38 @@ app.get("/", (req, res) => {
   res.send("Testing");
 });
 
+app.post("/api/destination", (req, res) => {
+  postDestination(req.body)
+    .then((data) => {
+      res.status(201).send(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 
-app.get("/api/destinations", (req, res) => {
+app.get("/api/destination", (req, res) => {
   getDestinations()
-    .then((destinations) => {
-      res.json(destinations)
+    .then((data) => {
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
-
+    .catch((err) => sendErrorOutput(err, res));
 });
 
-app.get("/api/destinations/:id", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
+app.get("/api/destination/:id", (req, res) => {
   const { id } = req.params;
-
-  getOneDestination(id)
-    .then((destination) => {
-      res.json(destination);
+  getDestinationByID(id)
+    .then((data) => {
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
-app.get("/api/assets", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
-  getAssets()
-    .then((assets) => {
-      res.json(assets);
+app.delete("/api/destination/:id", (req, res) => {
+  const { id } = req.params;
+  deleteDestination(id)
+    .then(() => {
+      res.send({ status: "deleted" });
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
-
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.get("/api/blog", (req, res) => {
@@ -142,9 +126,8 @@ app.patch("/api/blog/:id", (req, res) => {
     title: "title",
     richText: "rich_text",
     blogImage: "blog_image",
-    id,
   };
-
+  console.log(id);
   patchTable("blogs", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
