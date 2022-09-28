@@ -155,7 +155,7 @@ async function getAssets() {
 async function postCountry(countryObj) {
   const { country, city, language, countryCoords, cityInfo, backgroundImgId, backgroundImgUrl } = countryObj;
   
-  return await makeDatabaseQuery('INSERT INTO "restaurants" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
+  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id, background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
      [country, city, language, countryCoords, cityInfo, backgroundImgId ,backgroundImgUrl] );
 }
 
@@ -337,5 +337,6 @@ module.exports = {
   getAssets,
   patchTable,
   postHotel,
+  postCountry
 
 }

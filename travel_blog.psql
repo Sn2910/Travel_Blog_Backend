@@ -55,7 +55,7 @@ select * from destinations where id = 4;
 
 update destinations set background_img_url = 'https://thumbs.dreamstime.com/b/karlskirche-vienna-austria-sunrise-st-charles-s-church-34433823.jpg' where id = 4;
 
-DELETE FROM destinations WHERE id =21; 
+DELETE FROM destinations WHERE id =14 ; 
 
 
 create table hotels(
