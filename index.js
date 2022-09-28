@@ -44,6 +44,19 @@ function sendErrorOutput(err, res) {
 app.get("/", (req, res) => {
   res.send("Testing");
 });
+app.get("/api/assets", (req, res) => {
+  getAssets()
+  .then((assets) => {
+    res.json(assets);
+  })
+  .catch((err) => {
+    res.status(400).send({
+      error: err.message,
+    });
+  });
+});
+
+
 
 app.get("/api/destinations", (req, res) => {
   getDestinations()
@@ -57,9 +70,9 @@ app.get("/api/destinations", (req, res) => {
     });
 });
 
-app.get("/api/destination/:id", (req, res) => {
+app.get("/api/destinations/:id", (req, res) => {
   const { id } = req.params;
-  getDestinationByID(id)
+  getOneDestination(id)
     .then((data) => {
       res.json(data);
     })

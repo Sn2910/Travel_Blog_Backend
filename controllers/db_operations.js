@@ -10,6 +10,34 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+async function makeDatabaseQuery(sqlQuery, params) {
+  let data;
+  await pool
+    .connect()
+    .then(async (client) => {
+      return client.query(sqlQuery, params).then((res) => {
+        client.release();
+        data = res.rows;
+      });
+
+      /* else if(destinationId === insertData){
+        return client.query(sqlQuery, [insertData]).then((res) => {
+          client.release();
+          data = res.rows;
+        });
+      } */
+
+
+
+    })
+    .catch((e) => {
+      console.log(e.stack);
+    });
+  return data;
+}
+
+
+
 async function patchTable(table, fieldMapping, id, req) {
   // updates  [{field: 'name', value: 'Changed Name'}, {field: 'address', value: 'New York'}, {field: phone, value: '23423423'}]
   const updates = Object.keys(req.body).map((param) => {
@@ -39,29 +67,6 @@ async function patchTable(table, fieldMapping, id, req) {
   return pool.query(sql, updateQuery);
 }
 
-
-/* function postDestination(update) {
-  return pool
-    .query(
-      `
-    INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
-    values ($1, $2, $3, $4, $5, $6) returning *;
-    `,
-      [
-        update.country,
-        update.city,
-        update.language,
-        update.country_coords,
-        update.city_info,
-        update.background_img_id,
-      ]
-    )
-    .then((data) => {
-      return data.rows;
-    });
-}
- */
-
 /**
  * This function calls getSingleData() for quering the destinations table of the database
  *  @params no params
@@ -74,19 +79,47 @@ async function getDestinations() {
   return await makeDatabaseQuery('SELECT * FROM "destinations";', null);
   
 }
-async function getHotels() {
-  /*  return pool.query(`SELECT * FROM destinations;`).then((data) => {
-    return data.rows;
-  }); */
-  return await makeDatabaseQuery('SELECT * FROM "hotels";', null);
+/**
+ * This function calls getSingleData() for quering the hotel table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+ async function getDestinationHotels(destinationId) {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  return await makeDatabaseQuery(
+    'SELECT * FROM "hotels" WHERE  destination_id = $1;',
+    [destinationId]
+  );
+}
+/**
+ * This function calls getSingleData() for quering the shops table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+ async function getDestinationShops(destinationId) {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  return await makeDatabaseQuery(
+    'SELECT * FROM "shops" WHERE  destination_id =$1;',
+    [destinationId]
+  );
+}
+
+/**
+ * This function calls getSingleData() for quering the restaurants table of the database
+ *  @params destinationId represents the id to lookup for
+ *  @return json object
+ */
+async function getDestinationRestaurants(destinationId) {
+  //TODO:  Select data from Restaurants table by destination id .Return Data as an Array
+  return await makeDatabaseQuery(
+    'SELECT * FROM "restaurants" WHERE  destination_id =$1;',
+    [destinationId]
+  );
   
+
 }
  async function getOneDestination(id) {
  
-
-  /* pool.query("SELECT * FROM destinations WHERE id =$1;", [id]).then((data) => {
-    return data.rows;
-  }); */
   makeDatabaseQuery('SELECT * FROM "destinations" WHERE id =$1;', [id]);
   const destinationObj = {
     id: id,
@@ -293,6 +326,8 @@ function deleteBlog(id) {
 }
 
 module.exports = {
+  getDestinations,
+  getOneDestination,
   patchTable,
   postBlog,
   getBlogs,
@@ -302,5 +337,5 @@ module.exports = {
   getAssets,
   patchTable,
   postHotel,
-  getHotels,
+
 }
