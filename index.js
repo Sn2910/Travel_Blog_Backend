@@ -4,12 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
-app.use(cors())
-
+app.use(cors());
 
 //TODO : Import db operations controller functions here
 const {
- 
   getDestinations,
   getOneDestination,
   deleteDestination,
@@ -21,8 +19,9 @@ const {
   deleteBlog,
   getAssets,
   patchTable,
+  postHotel,
+  getHotels,
 } = require("./controllers/db_operations");
-
 
 const port = process.env.PORT || 3000;
 
@@ -46,18 +45,16 @@ app.get("/", (req, res) => {
   res.send("Testing");
 });
 
-
 app.get("/api/destinations", (req, res) => {
   getDestinations()
     .then((destinations) => {
-      res.json(destinations)
+      res.json(destinations);
     })
     .catch((err) => {
       res.status(400).send({
         error: err.message,
       });
     });
-
 });
 
 app.get("/api/destinations/:id", (req, res) => {
@@ -74,6 +71,39 @@ app.get("/api/destinations/:id", (req, res) => {
       });
     });
 });
+app.post("/api/destinations", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+  postCountry(req.body)
+    .then((destination) => {
+      res.json(destination);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+});
+
+app.post("/api/hotel", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+  postHotel(req.body)
+    .then((hotel) => {
+      res.status(201);
+      res.json(hotel);
+    })
+    .catch((err) => {
+      res.status(400).send({
+        error: err.message,
+      });
+    });
+});
+app.get("/api/hotel", (req, res) => {
+  getHotels()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 
 app.get("/api/assets", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
@@ -86,7 +116,6 @@ app.get("/api/assets", (req, res) => {
         error: err.message,
       });
     });
-
 });
 
 app.get("/api/blog", (req, res) => {
@@ -107,9 +136,11 @@ app.get("/api/blog/:id", (req, res) => {
 });
 
 app.post("/api/blog", (req, res) => {
-  postBlog(req.body).then((data) => {
-    res.json(data);
-  });
+  postBlog(req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.put("/api/blog/:id", (req, res) => {

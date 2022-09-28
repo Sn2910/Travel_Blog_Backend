@@ -55,6 +55,8 @@ select * from destinations where id = 4;
 
 update destinations set background_img_url = 'https://thumbs.dreamstime.com/b/karlskirche-vienna-austria-sunrise-st-charles-s-church-34433823.jpg' where id = 4;
 
+DELETE FROM destinations WHERE id =21; 
+
 
 create table hotels(
     id serial primary key,
@@ -63,12 +65,17 @@ create table hotels(
     price float,
     url varchar(500),
     rating float,
+    reviews int,
     destination_id int,
      image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
      FOREIGN KEY (image_id) REFERENCES assets(id)
 
 );
+alter table hotels
+add column image_url varchar(500);
+delete from hotels where id =5;
+
 create table restuarants(
     id serial primary key,
     name varchar(255),
@@ -76,6 +83,7 @@ create table restuarants(
     price float,
     url varchar(500),
     rating float,
+    reviews int,
     destination_id int,
     image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
@@ -89,6 +97,7 @@ create table shops(
     price float,
     url varchar(500),
     rating float,
+     reviews int,
     destination_id int,
      image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),

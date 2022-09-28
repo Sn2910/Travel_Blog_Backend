@@ -119,7 +119,7 @@ async function patchTable(table, fieldMapping, id, req) {
   return pool.query(sql, updateQuery);
 }
 
-function postDestination(update) {
+/* function postDestination(update) {
   return pool
     .query(
       `
@@ -139,7 +139,7 @@ function postDestination(update) {
       return data.rows;
     });
 }
-
+ */
 
 /**
  * This function calls getSingleData() for quering the destinations table of the database
@@ -151,6 +151,13 @@ async function getDestinations() {
     return data.rows;
   }); */
   return await makeDatabaseQuery('SELECT * FROM "destinations";', null);
+  
+}
+async function getHotels() {
+  /*  return pool.query(`SELECT * FROM destinations;`).then((data) => {
+    return data.rows;
+  }); */
+  return await makeDatabaseQuery('SELECT * FROM "hotels";', null);
   
 }
  async function getOneDestination(id) {
@@ -191,10 +198,45 @@ async function getAssets() {
  *  @return ...
  *  @todo ...
  */
-async function postCountry(insertData) {
-  const { country, city, language, countryCoords, cityInfo, backgroundImgId } = insertData;
-  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id ) values ($1, $2, $3, $4, $5, $6) returning *;',
-     [country, city, language, countryCoords, cityInfo, backgroundImgId] );
+async function postCountry(countryObj) {
+  const { country, city, language, countryCoords, cityInfo, backgroundImgId, backgroundImgUrl } = countryObj;
+  
+  return await makeDatabaseQuery('INSERT INTO "restaurants" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
+     [country, city, language, countryCoords, cityInfo, backgroundImgId ,backgroundImgUrl] );
+}
+
+/**
+ * This function will create a new hotel
+ *  @params hotel object as json
+ *  @return ...
+ *  @todo ...
+ */
+ async function postHotel(hotel) {
+  const { name, description, price, url, rating, reviews, destinationID, imageID, imageUrl } = hotel;
+  return await makeDatabaseQuery('INSERT INTO "hotels" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
+     [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
+}
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
+ async function postRestaurant(restaurant) {
+  const { country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl } = restaurant;
+  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
+     [country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl] );
+}
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
+ async function postShop(insertData) {
+  const { country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl } = insertData;
+  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
+     [country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl] );
 }
 
 function deleteDestination(id) {
@@ -294,4 +336,6 @@ module.exports = {
   deleteBlog,
   getAssets,
   patchTable,
+  postHotel,
+  getHotels,
 }
