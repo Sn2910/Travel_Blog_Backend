@@ -10,86 +10,6 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-
-/**
- * This is a generic PostgreSQL database select fetch function
- * @params sqlQuery is the complete string
- * @returns result of the database query
- * @todo refacoring: fields contains the fields to return, idField represents the field name in the where clause, id represents the identificator to look for. The commented code is ready to run
- * @date 2022-09-23
- */
-async function makeDatabaseQuery(sqlQuery, params) {
-  let data;
-  await pool
-    .connect()
-    .then(async (client) => {
-      return client.query(sqlQuery, params).then((res) => {
-        client.release();
-        data = res.rows;
-      });
-
-      /* else if(destinationId === insertData){
-        return client.query(sqlQuery, [insertData]).then((res) => {
-          client.release();
-          data = res.rows;
-        });
-
-      } */
-
-
-
-    })
-    .catch((e) => {
-      console.log(e.stack);
-    });
-  return data;
-}
-
-/**
- * This function calls getSingleData() for quering the hotel table of the database
- *  @params destinationId represents the id to lookup for
- *  @return json object
- */
-async function getDestinationHotels(destinationId) {
-  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
-  return await makeDatabaseQuery(
-    'SELECT * FROM "hotels" WHERE  destination_id = $1;',
-    [destinationId]
-  );
-
-  // return pool
-  //   .query("SELECT * FROM hotels WHERE  destination_id =$1;", [destinationId])
-  //   .then((data) => {
-  //     return data.rows;
-  //   });
-}
-
-/**
- * This function calls getSingleData() for quering the shops table of the database
- *  @params destinationId represents the id to lookup for
- *  @return json object
- */
-async function getDestinationShops(destinationId) {
-  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
-  return await makeDatabaseQuery(
-    'SELECT * FROM "shops" WHERE  destination_id =$1;',
-    [destinationId]
-  );
-}
-
-/**
- * This function calls getSingleData() for quering the restaurants table of the database
- *  @params destinationId represents the id to lookup for
- *  @return json object
- */
-async function getDestinationRestaurants(destinationId) {
-  //TODO:  Select data from Restaurants table by destination id .Return Data as an Array
-  return await makeDatabaseQuery(
-    'SELECT * FROM "restaurants" WHERE  destination_id =$1;',
-    [destinationId]
-  );
-}
-   
 async function patchTable(table, fieldMapping, id, req) {
   // updates  [{field: 'name', value: 'Changed Name'}, {field: 'address', value: 'New York'}, {field: phone, value: '23423423'}]
   const updates = Object.keys(req.body).map((param) => {
@@ -118,6 +38,7 @@ async function patchTable(table, fieldMapping, id, req) {
   console.log("sql", sql);
   return pool.query(sql, updateQuery);
 }
+
 
 /* function postDestination(update) {
   return pool
@@ -247,6 +168,56 @@ function deleteDestination(id) {
     });
 }
 
+// function postDestination(update) {
+//   return pool
+//     .query(
+//       `
+//     INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
+//     values ($1, $2, $3, $4, $5, $6) returning *;
+//     `,
+//       [
+//         update.country,
+//         update.city,
+//         update.language,
+//         update.country_coords,
+//         update.city_info,
+//         update.background_img_id,
+//       ]
+//     )
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
+
+// function getDestinations() {
+//   return pool
+//     .query(
+//       `
+//     SELECT * FROM destinations;
+//     `
+//     )
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
+
+// function getDestinationByID(id) {
+//   return pool
+//     .query("SELECT * FROM destinations WHERE id =$1;", [id])
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
+
+// function deleteDestination(id) {
+//   return pool
+//     .query("DELETE FROM destinations where id=$1;", [id])
+//     .then((data) => {
+//       return data.rows;
+//     });
+// }
+
+
 function postBlog(update) {
   return pool
     .query(
@@ -265,7 +236,6 @@ function postBlog(update) {
     .then((data) => {
       return data.rows;
     });
-
 }
 
 function getBlogs() {
@@ -323,13 +293,8 @@ function deleteBlog(id) {
 }
 
 module.exports = {
-
-
-  getDestinations,
-  getOneDestination,
-  deleteDestination,
+  patchTable,
   postBlog,
-  postCountry,
   getBlogs,
   getBlogByID,
   updateBlog,

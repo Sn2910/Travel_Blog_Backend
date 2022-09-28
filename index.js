@@ -1,5 +1,5 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -57,19 +57,13 @@ app.get("/api/destinations", (req, res) => {
     });
 });
 
-app.get("/api/destinations/:id", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
+app.get("/api/destination/:id", (req, res) => {
   const { id } = req.params;
-
-  getOneDestination(id)
-    .then((destination) => {
-      res.json(destination);
+  getDestinationByID(id)
+    .then((data) => {
+      res.json(data);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 app.post("/api/destinations", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
@@ -105,11 +99,11 @@ app.get("/api/hotel", (req, res) => {
     .catch((err) => sendErrorOutput(err, res));
 });
 
-app.get("/api/assets", (req, res) => {
-  // TODO: Replace Db operations with call to getDestination()
-  getAssets()
-    .then((assets) => {
-      res.json(assets);
+app.delete("/api/destination/:id", (req, res) => {
+  const { id } = req.params;
+  deleteDestination(id)
+    .then(() => {
+      res.send({ status: "deleted" });
     })
     .catch((err) => {
       res.status(400).send({
@@ -173,9 +167,8 @@ app.patch("/api/blog/:id", (req, res) => {
     title: "title",
     richText: "rich_text",
     blogImage: "blog_image",
-    id,
   };
-
+  console.log(id);
   patchTable("blogs", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
