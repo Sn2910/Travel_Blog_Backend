@@ -356,6 +356,7 @@ module.exports = {
   postHotel,
   postCountry,
   updateCountry,
-  deleteDestination
+  deleteDestination,
+  getDestinationHotels
 
 }

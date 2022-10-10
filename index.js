@@ -21,6 +21,7 @@ const {
   patchTable,
   postHotel,
   updateCountry,
+  getDestinationHotels
 } = require("./controllers/db_operations");
 
 const port = process.env.PORT || 3000;
@@ -135,6 +136,20 @@ app.patch("/api/destinations/:id", (req, res) => {
     })
     /* .catch((err) => sendErrorOutput(err, res)); */
 });
+app.delete("/api/destinations/:id", (req, res) => {
+  const { id } = req.params;
+  deleteDestination(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+
+
+
+
+
 app.post("/api/hotel", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
   postHotel(req.body)
@@ -148,22 +163,46 @@ app.post("/api/hotel", (req, res) => {
       });
     });
 });
-app.get("/api/hotel", (req, res) => {
-  getHotels()
+app.get("/api/hotel/:id", (req, res) => {
+  const { id } = req.params;
+  getDestinationHotels(id)
     .then((data) => {
       res.json(data);
     })
     .catch((err) => sendErrorOutput(err, res));
 });
-
-app.delete("/api/destinations/:id", (req, res) => {
+app.patch("/api/hotel/:id", (req, res) => {
   const { id } = req.params;
-  deleteDestination(id)
+  console.log(req.body)
+  const update = req.body
+
+  update.destinationID =update.destinationID ? parseInt(update.destinationID): null
+  update.imageID = update.imageID ? parseInt(update.imageID): null
+  update.price =   update.price  ? parseFloat(update.price):null
+  update.rating = update.rating ? parseFloat(update.rating): null
+  update.reviews=  update.reviews ? parseInt(update.reviews): null
+
+  const fieldMapping = {
+    name: "name",
+    description: "description",
+    price: "price",
+    url: "url",
+    rating: "rating",
+    reviews:"reviews",
+    destinationID:"destination_id",
+    imageID:"image_id",
+    imageUrl:"image_url"
+  };
+  console.log(id);
+  patchTable("hotels", fieldMapping, id, req)
     .then(() => {
-      res.send({ status: "deleted" });
+      res.send({ status: "updated" });
     })
-    .catch((err) => sendErrorOutput(err, res));
+    /* .catch((err) => sendErrorOutput(err, res)); */
 });
+
+
+
 
 app.get("/api/blog", (req, res) => {
   getBlogs()
