@@ -20,7 +20,7 @@ const {
   getAssets,
   patchTable,
   postHotel,
-  getHotels,
+  updateCountry,
 } = require("./controllers/db_operations");
 
 const port = process.env.PORT || 3000;
@@ -76,7 +76,7 @@ app.get("/api/destinations/:id", (req, res) => {
     .then((data) => {
       res.json(data);
     })
-    .catch((err) => sendErrorOutput(err, res));
+    /* .catch((err) => sendErrorOutput(err, res)); */
 });
 app.post("/api/destinations", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
@@ -90,7 +90,51 @@ app.post("/api/destinations", (req, res) => {
       });
     });
 });
+app.put("/api/destinations/:id", (req, res) => {
+  const { id } = req.params;
 
+  if (
+    !req.body.country ||
+    !req.body.city ||
+    !req.body.language ||
+    !req.body.countryCoords ||
+    !req.body.cityInfo ||
+    !req.body.backgroundImgId ||
+    !req.body.backgroundImgUrl) {
+    return res
+      .status(400)
+      .send({ error: "Some field(s) are missing. Check API documentation" });
+  }
+
+  updateCountry(id, req.body)
+    .then((updatedData) => {
+      res.send(updatedData);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
+
+
+app.patch("/api/destinations/:id", (req, res) => {
+  const { id } = req.params;
+  if(req.body.backgroundImgId){
+    req.body.backgroundImgId = parseInt(req.body.backgroundImgId)
+  }
+  const fieldMapping = {
+    country: "country",
+    city: "city",
+    language: "language",
+    countryCoords: "country_coords",
+    cityInfo: "city_info",
+    backgroundImgId:"background_img_id",
+    backgroundImgUrl:"background_img_url"
+  };
+  console.log(id);
+  patchTable("destinations", fieldMapping, id, req)
+    .then(() => {
+      res.send({ status: "updated" });
+    })
+    /* .catch((err) => sendErrorOutput(err, res)); */
+});
 app.post("/api/hotel", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
   postHotel(req.body)
@@ -112,17 +156,13 @@ app.get("/api/hotel", (req, res) => {
     .catch((err) => sendErrorOutput(err, res));
 });
 
-app.delete("/api/destination/:id", (req, res) => {
+app.delete("/api/destinations/:id", (req, res) => {
   const { id } = req.params;
   deleteDestination(id)
     .then(() => {
       res.send({ status: "deleted" });
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 app.get("/api/blog", (req, res) => {

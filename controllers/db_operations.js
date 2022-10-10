@@ -7,33 +7,34 @@ const pool = new Pool({
   password: process.env.PG_PASSWORD,
   port: process.env.PG_PORT,
   ssl: true,
+  max:50,
   ssl: { rejectUnauthorized: false },
 });
 
 async function makeDatabaseQuery(sqlQuery, params) {
   let data;
-  await pool
-    .connect()
-    .then(async (client) => {
-      return client.query(sqlQuery, params).then((res) => {
-        client.release();
-        data = res.rows;
-      });
-
-      /* else if(destinationId === insertData){
-        return client.query(sqlQuery, [insertData]).then((res) => {
-          client.release();
-          data = res.rows;
-        });
-      } */
+  /* const client = await pool.connect() */
+   try{
+    const res= await pool.query(sqlQuery, params)
+    /* client.release(); */
+    data = res.rows;
 
 
-
-    })
-    .catch((e) => {
-      console.log(e.stack);
+  /* else if(destinationId === insertData){
+    return client.query(sqlQuery, [insertData]).then((res) => {
+      client.release();
+      data = res.rows;
     });
+  } */
+  console.log(data)
+   }catch(error){
+    console.log(error.message)
+    /* client.release(); */
+    return null
+   }
+      
   return data;
+ 
 }
 
 
@@ -47,7 +48,7 @@ async function patchTable(table, fieldMapping, id, req) {
     };
   });
 
-  let updateQuery = [id];
+  let updateQuery = [parseInt(id)];
   let updateFields = [];
   updates.forEach((element, index) => {
     updateQuery.push(element.value);
@@ -64,7 +65,7 @@ async function patchTable(table, fieldMapping, id, req) {
       WHERE id=$1`;
 
   console.log("sql", sql);
-  return pool.query(sql, updateQuery);
+  return await makeDatabaseQuery(sql, updateQuery);
 }
 
 /**
@@ -120,19 +121,16 @@ async function getDestinationRestaurants(destinationId) {
 }
  async function getOneDestination(id) {
  
-  makeDatabaseQuery('SELECT * FROM "destinations" WHERE id =$1;', [id]);
+  makeDatabaseQuery('SELECT * FROM "destinations" WHERE id =$1;', [parseInt(id)]);
   const destinationObj = {
-    id: id,
+    id: parseInt(id),
   };
   const restaurants = await getDestinationRestaurants(destinationObj.id);
-  console.log(restaurants);
   const hotels = await getDestinationHotels(destinationObj.id);
   const shops = await getDestinationShops(destinationObj.id);
   destinationObj.restaurants = restaurants;
   destinationObj.hotels = hotels;
   destinationObj.shops = shops;
-  console.log(destinationObj);
-
   return destinationObj;
 }
 
@@ -158,7 +156,29 @@ async function postCountry(countryObj) {
   return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id, background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
      [country, city, language, countryCoords, cityInfo, backgroundImgId ,backgroundImgUrl] );
 }
+async function updateCountry(id, update) {
+  
+  let newbackimgid;
+  if(update.backgroundImgId){
+    newbackimgid = parseInt(update.backgroundImgId)
+   
+  }
+  
 
+  return await makeDatabaseQuery('UPDATE "destinations" set country=$1, city=$2, language=$3, country_coords=$4, city_info=$5, background_img_id=$6, background_img_url=$7, where id=$8 returning *;',
+      [
+        update.country,
+        update.city,
+        update.language,
+        update.countryCoords,
+        update.cityInfo,
+        newbackimgid,
+        update.backgroundImgUrl,
+        parseInt(id),
+      ]
+    )
+    
+}
 /**
  * This function will create a new hotel
  *  @params hotel object as json
@@ -193,12 +213,9 @@ async function postCountry(countryObj) {
      [country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl] );
 }
 
-function deleteDestination(id) {
-  return pool
-    .query("DELETE FROM destinations where id=$1;", [id])
-    .then((data) => {
-      return data.rows;
-    });
+async function deleteDestination(id) {
+  return await makeDatabaseQuery ("DELETE FROM destinations where id=$1;", [id])
+    
 }
 
 // function postDestination(update) {
@@ -337,6 +354,8 @@ module.exports = {
   getAssets,
   patchTable,
   postHotel,
-  postCountry
+  postCountry,
+  updateCountry,
+  deleteDestination
 
 }

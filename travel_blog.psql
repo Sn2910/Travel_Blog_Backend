@@ -23,6 +23,7 @@ create table destinations(
   
    FOREIGN KEY (background_img_id) REFERENCES assets(id)
 );
+ALTER TABLE destinations modify country_coords VARCHAR(5000) 
 insert into destinations (country, city, language, country_coords, city_info,) 
 values ('Germany', 'Berlin', 'Deutsch', '279,286,325,342,298,406,246,396,237,338', 'Berlin is the capital and a state of the Federal Republic of Germany.');
 
@@ -49,13 +50,13 @@ Romania is a developing country with a high-income economy,[15][16] ranking 
 
 ',2);
 
+update destinations set background_img_id = 4  where id = 4;
 
+select * from destinations where id = 3;
 
-select * from destinations where id = 4;
+update destinations set background_img_url = null where id =4;
 
-update destinations set background_img_url = 'https://thumbs.dreamstime.com/b/karlskirche-vienna-austria-sunrise-st-charles-s-church-34433823.jpg' where id = 4;
-
-DELETE FROM destinations WHERE id =14 ; 
+DELETE FROM destinations WHERE background_img_url = ; 
 
 
 create table hotels(
@@ -74,6 +75,7 @@ create table hotels(
 );
 alter table hotels
 add column image_url varchar(500);
+select * from hotels
 delete from hotels where id =5;
 
 create table restuarants(
@@ -130,7 +132,7 @@ select * from blogs;
 delete from blogs
 where id between 4 and 5;
 
- drop table destinations;
+   
 drop table hotels;
 drop table restuarants;
 drop table shops;
