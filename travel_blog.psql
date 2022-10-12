@@ -78,7 +78,7 @@ add column image_url varchar(500);
 select * from hotels
 delete from hotels where id =5;
 
-create table restuarants(
+create table restaurants(
     id serial primary key,
     name varchar(255),
     description varchar(500),
@@ -92,6 +92,11 @@ create table restuarants(
  FOREIGN KEY (image_id) REFERENCES assets(id)
 
 );
+select * from restaurants;
+alter table restaurants
+add column image_url varchar(500);
+
+
 create table shops(
     id serial primary key,
     name varchar(255),
@@ -105,6 +110,10 @@ create table shops(
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
      FOREIGN KEY (image_id) REFERENCES assets(id)
 );
+select * from shops;
+alter table shops
+add column image_url varchar(500);
+
 
 create table blogs(
     id serial primary key,

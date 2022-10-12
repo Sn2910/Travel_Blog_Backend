@@ -197,9 +197,9 @@ async function updateCountry(id, update) {
  *  @todo ...
  */
  async function postRestaurant(restaurant) {
-  const { country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl } = restaurant;
-  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
-     [country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl] );
+  const { name, description, price, url, rating, reviews, destinationID, imageID, imageUrl } = restaurant;
+  return await makeDatabaseQuery('INSERT INTO "restaurants" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
+     [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
 /**
  * This function ...
@@ -207,65 +207,16 @@ async function updateCountry(id, update) {
  *  @return ...
  *  @todo ...
  */
- async function postShop(insertData) {
-  const { country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl } = insertData;
-  return await makeDatabaseQuery('INSERT INTO "destinations" (country, city, language, country_coords, city_info, background_img_id,background_img_url) values ($1, $2, $3, $4, $5, $6, $7) returning *;',
-     [country, city, language, countryCoords, cityInfo, backgroundImgId,backgroundImgUrl] );
+ async function postShop(shop) {
+  const { name, description, price, url, rating, reviews, destinationID, imageID, imageUrl } = shop;
+  return await makeDatabaseQuery('INSERT INTO "shops" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
+     [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
 
 async function deleteDestination(id) {
   return await makeDatabaseQuery ("DELETE FROM destinations where id=$1;", [id])
     
 }
-
-// function postDestination(update) {
-//   return pool
-//     .query(
-//       `
-//     INSERT INTO destinations (country, city, language, country_coords, city_info, background_img_id)
-//     values ($1, $2, $3, $4, $5, $6) returning *;
-//     `,
-//       [
-//         update.country,
-//         update.city,
-//         update.language,
-//         update.country_coords,
-//         update.city_info,
-//         update.background_img_id,
-//       ]
-//     )
-//     .then((data) => {
-//       return data.rows;
-//     });
-// }
-
-// function getDestinations() {
-//   return pool
-//     .query(
-//       `
-//     SELECT * FROM destinations;
-//     `
-//     )
-//     .then((data) => {
-//       return data.rows;
-//     });
-// }
-
-// function getDestinationByID(id) {
-//   return pool
-//     .query("SELECT * FROM destinations WHERE id =$1;", [id])
-//     .then((data) => {
-//       return data.rows;
-//     });
-// }
-
-// function deleteDestination(id) {
-//   return pool
-//     .query("DELETE FROM destinations where id=$1;", [id])
-//     .then((data) => {
-//       return data.rows;
-//     });
-// }
 
 
 function postBlog(update) {
@@ -354,6 +305,8 @@ module.exports = {
   getAssets,
   patchTable,
   postHotel,
+  postRestaurant,
+  postShop,
   postCountry,
   updateCountry,
   deleteDestination,

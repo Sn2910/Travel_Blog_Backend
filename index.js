@@ -20,6 +20,8 @@ const {
   getAssets,
   patchTable,
   postHotel,
+  postRestaurant,
+  postShop,
   updateCountry,
   getDestinationHotels
 } = require("./controllers/db_operations");
@@ -45,6 +47,8 @@ function sendErrorOutput(err, res) {
 app.get("/", (req, res) => {
   res.send("Testing");
 });
+/* ---------Assets Api----------- */
+
 app.get("/api/assets", (req, res) => {
   getAssets()
   .then((assets) => {
@@ -58,7 +62,7 @@ app.get("/api/assets", (req, res) => {
 });
 
 
-
+/* ---------Destination Api----------- */
 app.get("/api/destinations", (req, res) => {
   getDestinations()
     .then((destinations) => {
@@ -129,7 +133,7 @@ app.patch("/api/destinations/:id", (req, res) => {
     backgroundImgId:"background_img_id",
     backgroundImgUrl:"background_img_url"
   };
-  console.log(id);
+
   patchTable("destinations", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
@@ -148,7 +152,7 @@ app.delete("/api/destinations/:id", (req, res) => {
 
 
 
-
+/* ---------Hotel Api----------- */
 
 app.post("/api/hotel", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
@@ -157,11 +161,7 @@ app.post("/api/hotel", (req, res) => {
       res.status(201);
       res.json(hotel);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
 app.get("/api/hotel/:id", (req, res) => {
   const { id } = req.params;
@@ -173,7 +173,6 @@ app.get("/api/hotel/:id", (req, res) => {
 });
 app.patch("/api/hotel/:id", (req, res) => {
   const { id } = req.params;
-  console.log(req.body)
   const update = req.body
 
   update.destinationID =update.destinationID ? parseInt(update.destinationID): null
@@ -193,17 +192,35 @@ app.patch("/api/hotel/:id", (req, res) => {
     imageID:"image_id",
     imageUrl:"image_url"
   };
-  console.log(id);
   patchTable("hotels", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
     })
     /* .catch((err) => sendErrorOutput(err, res)); */
 });
+/* ---------Restaurant Api----------- */
 
+app.post("/api/restaurant", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+  postRestaurant(req.body)
+    .then((restaurant) => {
+      res.status(201);
+      res.json(restaurant);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
+/* ---------Shop Api----------- */
+app.post("/api/shop", (req, res) => {
+  // TODO: Replace Db operations with call to getDestination()
+  postShop(req.body)
+    .then((shop) => {
+      res.status(201);
+      res.json(shop);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 
-
-
+/* ---------Blog Api----------- */
 app.get("/api/blog", (req, res) => {
   getBlogs()
     .then((data) => {
@@ -260,7 +277,6 @@ app.patch("/api/blog/:id", (req, res) => {
     richText: "rich_text",
     blogImage: "blog_image",
   };
-  console.log(id);
   patchTable("blogs", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });
