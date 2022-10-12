@@ -63,18 +63,16 @@ app.get("/api/assets", (req, res) => {
 });
 
 
+
 /* ---------Destination Api----------- */
 app.get("/api/destinations", (req, res) => {
   getDestinations()
     .then((destinations) => {
       res.json(destinations);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
+
 
 app.get("/api/destinations/:id", (req, res) => {
   const { id } = req.params;
@@ -90,12 +88,9 @@ app.post("/api/destinations", (req, res) => {
     .then((destination) => {
       res.json(destination);
     })
-    .catch((err) => {
-      res.status(400).send({
-        error: err.message,
-      });
-    });
+    .catch((err) => sendErrorOutput(err, res));
 });
+
 app.put("/api/destinations/:id", (req, res) => {
   const { id } = req.params;
 
@@ -278,6 +273,7 @@ app.patch("/api/blog/:id", (req, res) => {
     richText: "rich_text",
     blogImage: "blog_image",
   };
+
   patchTable("blogs", fieldMapping, id, req)
     .then(() => {
       res.send({ status: "updated" });

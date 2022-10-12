@@ -66,7 +66,6 @@ create table hotels(
     price float,
     url varchar(500),
     rating float,
-    reviews int,
     destination_id int,
      image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
@@ -85,13 +84,13 @@ create table restaurants(
     price float,
     url varchar(500),
     rating float,
-    reviews int,
     destination_id int,
     image_id int,
      FOREIGN KEY (destination_id) REFERENCES destinations(id),
  FOREIGN KEY (image_id) REFERENCES assets(id)
 
 );
+
 select * from restaurants;
 alter table restaurants
 add column image_url varchar(500);
@@ -141,6 +140,8 @@ select * from blogs;
 delete from blogs
 where id between 4 and 5;
 
+ drop table destinations;
+drop table restuarants;
    
 drop table hotels;
 drop table restuarants;
