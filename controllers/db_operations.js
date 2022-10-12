@@ -26,7 +26,6 @@ async function makeDatabaseQuery(sqlQuery, params) {
       data = res.rows;
     });
   } */
-  console.log(data)
    }catch(error){
     console.log(error.message)
     /* client.release(); */
@@ -185,11 +184,34 @@ async function updateCountry(id, update) {
  *  @return ...
  *  @todo ...
  */
+ async function getHotels() {
+  //TODO:  Select data from Hotels table by destination id .Return Data as an Array
+  return await makeDatabaseQuery('SELECT * FROM "hotels";', null);
+}
  async function postHotel(hotel) {
   const { name, description, price, url, rating, reviews, destinationID, imageID, imageUrl } = hotel;
   return await makeDatabaseQuery('INSERT INTO "hotels" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
      [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
+/* async function updateHotel(id, update) {
+  
+
+  return await makeDatabaseQuery('UPDATE "hotels" set name=$1, description=$2, price=$3, url=$4, rating=$5, reviews=$6, destination_id=$7, image_id=$8, image_url=$9 where id=$10 returning *;',
+      [
+        update.name,
+        update.description,
+        update.price,
+        update.url,
+        update.rating,
+        update.reviews,
+        update.destinationID,
+        update.imageID,
+        update.imageUrl,
+        parseInt(id),
+      ]
+    )
+    
+} */
 /**
  * This function ...
  *  @params ...
@@ -310,6 +332,7 @@ module.exports = {
   postCountry,
   updateCountry,
   deleteDestination,
-  getDestinationHotels
+  getDestinationHotels,
+  getHotels
 
 }

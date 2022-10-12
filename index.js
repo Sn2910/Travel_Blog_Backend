@@ -23,7 +23,8 @@ const {
   postRestaurant,
   postShop,
   updateCountry,
-  getDestinationHotels
+  getDestinationHotels,
+  getHotels
 } = require("./controllers/db_operations");
 
 const port = process.env.PORT || 3000;
@@ -163,9 +164,9 @@ app.post("/api/hotel", (req, res) => {
     })
     .catch((err) => sendErrorOutput(err, res));
 });
-app.get("/api/hotel/:id", (req, res) => {
-  const { id } = req.params;
-  getDestinationHotels(id)
+app.get("/api/hotels", (req, res) => {
+
+  getHotels()
     .then((data) => {
       res.json(data);
     })
@@ -174,13 +175,13 @@ app.get("/api/hotel/:id", (req, res) => {
 app.patch("/api/hotel/:id", (req, res) => {
   const { id } = req.params;
   const update = req.body
-
+ 
   update.destinationID =update.destinationID ? parseInt(update.destinationID): null
   update.imageID = update.imageID ? parseInt(update.imageID): null
   update.price =   update.price  ? parseFloat(update.price):null
-  update.rating = update.rating ? parseFloat(update.rating): null
+  update.rating = update.rating ? parseFloat(update.rating): null 
   update.reviews=  update.reviews ? parseInt(update.reviews): null
-
+console.log(update)
   const fieldMapping = {
     name: "name",
     description: "description",
