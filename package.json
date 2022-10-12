@@ -1,10 +1,14 @@
 {
   "name": "travel_blog_backend",
   "version": "0.0.1",
+  "engines": {
+    "node": "16.15.1"
+  },
   "description": "Travel Blog Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Sneha",
   "license": "ISC",
