@@ -24,7 +24,10 @@ const {
   postShop,
   updateCountry,
   getDestinationHotels,
-  getHotels
+  getHotels,
+  getRestaurants,
+  getShops
+
 } = require("./controllers/db_operations");
 
 const port = process.env.PORT || 3000;
@@ -195,6 +198,14 @@ console.log(update)
     /* .catch((err) => sendErrorOutput(err, res)); */
 });
 /* ---------Restaurant Api----------- */
+app.get("/api/restaurants", (req, res) => {
+
+  getRestaurants()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 
 app.post("/api/restaurant", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
@@ -205,7 +216,42 @@ app.post("/api/restaurant", (req, res) => {
     })
     .catch((err) => sendErrorOutput(err, res));
 });
+app.patch("/api/restaurant/:id", (req, res) => {
+  const { id } = req.params;
+  const update = req.body
+ 
+  update.destinationID =update.destinationID ? parseInt(update.destinationID): null
+  update.imageID = update.imageID ? parseInt(update.imageID): null
+  update.price =   update.price  ? parseFloat(update.price):null
+  update.rating = update.rating ? parseFloat(update.rating): null 
+  update.reviews=  update.reviews ? parseInt(update.reviews): null
+console.log(update)
+  const fieldMapping = {
+    name: "name",
+    description: "description",
+    price: "price",
+    url: "url",
+    rating: "rating",
+    reviews:"reviews",
+    destinationID:"destination_id",
+    imageID:"image_id",
+    imageUrl:"image_url"
+  };
+  patchTable("restaurants", fieldMapping, id, req)
+    .then(() => {
+      res.send({ status: "updated" });
+    })
+    /* .catch((err) => sendErrorOutput(err, res)); */
+});
 /* ---------Shop Api----------- */
+app.get("/api/shops", (req, res) => {
+
+  getShops()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 app.post("/api/shop", (req, res) => {
   // TODO: Replace Db operations with call to getDestination()
   postShop(req.body)
@@ -214,6 +260,33 @@ app.post("/api/shop", (req, res) => {
       res.json(shop);
     })
     .catch((err) => sendErrorOutput(err, res));
+});
+app.patch("/api/shop/:id", (req, res) => {
+  const { id } = req.params;
+  const update = req.body
+ 
+  update.destinationID =update.destinationID ? parseInt(update.destinationID): null
+  update.imageID = update.imageID ? parseInt(update.imageID): null
+  update.price =   update.price  ? parseFloat(update.price):null
+  update.rating = update.rating ? parseFloat(update.rating): null 
+  update.reviews=  update.reviews ? parseInt(update.reviews): null
+
+  const fieldMapping = {
+    name: "name",
+    description: "description",
+    price: "price",
+    url: "url",
+    rating: "rating",
+    reviews:"reviews",
+    destinationID:"destination_id",
+    imageID:"image_id",
+    imageUrl:"image_url"
+  };
+  patchTable("shops", fieldMapping, id, req)
+    .then(() => {
+      res.send({ status: "updated" });
+    })
+    /* .catch((err) => sendErrorOutput(err, res)); */
 });
 
 /* ---------Blog Api----------- */
