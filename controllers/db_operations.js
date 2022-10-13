@@ -218,10 +218,28 @@ async function updateCountry(id, update) {
  *  @return ...
  *  @todo ...
  */
+async function getRestaurants() {
+  return await makeDatabaseQuery('SELECT * FROM "restaurants";', null);
+}
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
  async function postRestaurant(restaurant) {
   const { name, description, price, url, rating, reviews, destinationID, imageID, imageUrl } = restaurant;
   return await makeDatabaseQuery('INSERT INTO "restaurants" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
      [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
+}
+/**
+ * This function ...
+ *  @params ...
+ *  @return ...
+ *  @todo ...
+ */
+ async function getShops() {
+  return await makeDatabaseQuery('SELECT * FROM "shops";', null);
 }
 /**
  * This function ...
@@ -333,6 +351,8 @@ module.exports = {
   updateCountry,
   deleteDestination,
   getDestinationHotels,
-  getHotels
+  getHotels,
+  getRestaurants,
+  getShops
 
 }
