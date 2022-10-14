@@ -1,5 +1,5 @@
+/*-------- Database Connection------*/
 const { Pool } = require("pg");
-
 const pool = new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -178,6 +178,11 @@ async function updateCountry(id, update) {
     )
     
 }
+async function deleteDestination(id) {
+  return await makeDatabaseQuery ("DELETE FROM destinations where id=$1;", [id])
+    
+}
+
 /**
  * This function will create a new hotel
  *  @params hotel object as json
@@ -193,25 +198,11 @@ async function updateCountry(id, update) {
   return await makeDatabaseQuery('INSERT INTO "hotels" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
      [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
-/* async function updateHotel(id, update) {
-  
-
-  return await makeDatabaseQuery('UPDATE "hotels" set name=$1, description=$2, price=$3, url=$4, rating=$5, reviews=$6, destination_id=$7, image_id=$8, image_url=$9 where id=$10 returning *;',
-      [
-        update.name,
-        update.description,
-        update.price,
-        update.url,
-        update.rating,
-        update.reviews,
-        update.destinationID,
-        update.imageID,
-        update.imageUrl,
-        parseInt(id),
-      ]
-    )
+async function deleteHotel(id) {
+  return await makeDatabaseQuery ("DELETE FROM hotels where id=$1;", [id])
     
-} */
+}
+
 /**
  * This function ...
  *  @params ...
@@ -232,6 +223,11 @@ async function getRestaurants() {
   return await makeDatabaseQuery('INSERT INTO "restaurants" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
      [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
+async function deleteRestaurant(id) {
+  return await makeDatabaseQuery ("DELETE FROM restaurants where id=$1;", [id])
+    
+}
+
 /**
  * This function ...
  *  @params ...
@@ -252,11 +248,12 @@ async function getRestaurants() {
   return await makeDatabaseQuery('INSERT INTO "shops" (name, description, price, url, rating, reviews, destination_id, image_id, image_url) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;',
      [name, description, parseFloat(price), url, parseFloat(rating), reviews, destinationID, imageID, imageUrl] );
 }
-
-async function deleteDestination(id) {
-  return await makeDatabaseQuery ("DELETE FROM destinations where id=$1;", [id])
+async function deleteShop(id) {
+  return await makeDatabaseQuery ("DELETE FROM shops where id=$1;", [id])
     
 }
+
+
 
 
 function postBlog(update) {
@@ -353,6 +350,9 @@ module.exports = {
   getDestinationHotels,
   getHotels,
   getRestaurants,
-  getShops
+  getShops,
+  deleteHotel,
+  deleteShop,
+  deleteRestaurant
 
 }

@@ -26,7 +26,10 @@ const {
   getDestinationHotels,
   getHotels,
   getRestaurants,
-  getShops
+  getShops,
+  deleteHotel,
+  deleteShop,
+  deleteRestaurant
 
 } = require("./controllers/db_operations");
 
@@ -197,6 +200,14 @@ console.log(update)
     })
     /* .catch((err) => sendErrorOutput(err, res)); */
 });
+app.delete("/api/hotel/:id", (req, res) => {
+  const { id } = req.params;
+  deleteHotel(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 /* ---------Restaurant Api----------- */
 app.get("/api/restaurants", (req, res) => {
 
@@ -243,6 +254,14 @@ console.log(update)
     })
     /* .catch((err) => sendErrorOutput(err, res)); */
 });
+app.delete("/api/restaurant/:id", (req, res) => {
+  const { id } = req.params;
+  deleteRestaurant(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
+});
 /* ---------Shop Api----------- */
 app.get("/api/shops", (req, res) => {
 
@@ -287,6 +306,14 @@ app.patch("/api/shop/:id", (req, res) => {
       res.send({ status: "updated" });
     })
     /* .catch((err) => sendErrorOutput(err, res)); */
+});
+app.delete("/api/shop/:id", (req, res) => {
+  const { id } = req.params;
+  deleteShop(id)
+    .then(() => {
+      res.send({ status: "deleted" });
+    })
+    .catch((err) => sendErrorOutput(err, res));
 });
 
 /* ---------Blog Api----------- */
